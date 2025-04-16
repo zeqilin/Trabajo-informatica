@@ -8,7 +8,7 @@ void tablero::dibujar_tablero() {
             float x = i * tamañocuadrado;
             float y = j * tamañocuadrado;
 
-            // Si el la fila par columna par o fila impar columna impar es blanco de lo contrario negro
+            // Si la fila par columna par o fila impar columna impar es negro de lo contrario blanco
             if ((i % 2 != 0 && j%2!=0)||(i%2==0&&j%2==0)) {
                 glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
             }
