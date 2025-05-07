@@ -19,10 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Caballo.cpp" />
     <ClCompile Include="src\principal.cpp" />
     <ClCompile Include="src\tablero.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Caballo.h" />
+    <ClInclude Include="src\Coordenadas.h" />
     <ClInclude Include="src\tablero.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

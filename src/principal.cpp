@@ -1,7 +1,7 @@
 #include "freeglut.h"
 #include "ETSIDI.h"
 #include "tablero.h"
-
+#include "Caballo.h"
 //NO HACE FALTA LLAMARLAS EXPLICITAMENTE
 void OnDraw(void); //esta funcion sera llamada para dibujar
 void OnTimer(int value); //esta funcion sera llamada cuando transcurra una temporizacion
@@ -41,6 +41,7 @@ int main(int argc, char* argv[])
 void OnDraw(void)
 {
 	tablero tablero;
+	Caballo caballo;
 	//Borrado de la pantalla	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -52,9 +53,10 @@ void OnDraw(void)
 	gluLookAt(4, 4, 12,  // posicion del ojo
 		4, 4, 0.0,      // hacia que punto mira  (0,0,0) 
 		0.0, 1.0, 0.0);
-	
 	tablero.dibujar_tablero();
-
+	caballo.dibujar_caballo();
+	
+	
 
 	//no borrar esta linea ni poner nada despues
 	glutSwapBuffers();
