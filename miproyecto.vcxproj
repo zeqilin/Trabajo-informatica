@@ -25,7 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Caballo.h" />
-    <ClInclude Include="src\Coordenadas.h" />
+    <ClInclude Include="src\Casillas.h" />
     <ClInclude Include="src\tablero.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
