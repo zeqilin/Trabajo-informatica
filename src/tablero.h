@@ -1,9 +1,12 @@
 #pragma once
+#include "Casillas.h"
 #include "freeglut.h"
 class tablero
 {
-	int filas{ 8 }, columnas{ 8 },tamañocuadrado{1};
+	float tamañocuadrado{1};
+	Casillas casillas[8][8];
 public:
+	tablero();
 	void dibujar_tablero();
 };
 
