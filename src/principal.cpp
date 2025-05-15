@@ -2,10 +2,13 @@
 #include "ETSIDI.h"
 #include "tablero.h"
 #include "Caballo.h"
+#include "Peon.h"
 //NO HACE FALTA LLAMARLAS EXPLICITAMENTE
 void OnDraw(void); //esta funcion sera llamada para dibujar
 void OnTimer(int value); //esta funcion sera llamada cuando transcurra una temporizacion
 void OnKeyboardDown(unsigned char key, int x, int y); //cuando se pulse una tecla	
+
+Peon peon;
 
 int main(int argc, char* argv[])
 {
@@ -16,6 +19,8 @@ int main(int argc, char* argv[])
 	glutInitWindowSize(800, 600);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutCreateWindow("MiJuego");
+
+	glClearColor(0.8f, 0.8f, 0.8f, 1.0f); // pongo el fondo gris claro para poder visualizar bien todas las piezas
 
 	//habilitar luces y definir perspectiva
 	glEnable(GL_LIGHT0);
@@ -42,6 +47,7 @@ void OnDraw(void)
 {
 	tablero tablero;
 	Caballo caballo;
+	
 	//Borrado de la pantalla	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -55,6 +61,7 @@ void OnDraw(void)
 		0.0, 1.0, 0.0);
 	tablero.dibujar_tablero();
 	caballo.dibujar_caballo();
+	peon.dibujar_peon();
 	
 	
 
@@ -72,7 +79,11 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 void OnTimer(int value)
 {
 	//poner aqui el código de animacion
-
+	//posiciono el peon de tal forma que sea visible, para que no lo tape el caballo
+	Coordenadas pos;
+	pos.x = 0;
+	pos.y = 2;
+	peon.setPosicion(pos);
 
 		//no borrar estas lineas
 	glutTimerFunc(25, OnTimer, 0);
