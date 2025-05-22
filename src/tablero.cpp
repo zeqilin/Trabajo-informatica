@@ -20,11 +20,11 @@ void tablero::dibujar_tablero() {
 
             // Si la fila par columna par o fila impar columna impar es negro de lo contrario blanco
             if ((i % 2 != 0 && j%2!=0)||(i%2==0&&j%2==0)) {
-                glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
+                glColor3f(0.36f, 0.25f, 0.20f);//color marron para visualizar las piezas negras
             }
             else{
             
-                glColor3f(0.0f, 0.0f, 0.0f);
+                glColor3f(0.93f, 0.86f, 0.75f);//color beige para visualizar las piezas blancas
             }
 
             // va dibujando los cuadrados a medida que avanzan los bucles
