@@ -8,7 +8,7 @@ void OnDraw(void); //esta funcion sera llamada para dibujar
 void OnTimer(int value); //esta funcion sera llamada cuando transcurra una temporizacion
 void OnKeyboardDown(unsigned char key, int x, int y); //cuando se pulse una tecla	
 
-Peon peon;
+Peon peonesNegros[9];
 
 int main(int argc, char* argv[])
 {
@@ -61,10 +61,11 @@ void OnDraw(void)
 		0.0, 1.0, 0.0);
 	tablero.dibujar_tablero();
 	caballo.dibujar_caballo();
-	peon.dibujar_peon();
+	//Para dibujar los 8 peones negros
+	for (int i = 0; i < 9; i++) {
+		peonesNegros[i].dibujar_peon();
+	}
 	
-	
-
 	//no borrar esta linea ni poner nada despues
 	glutSwapBuffers();
 }
@@ -79,11 +80,17 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 void OnTimer(int value)
 {
 	//poner aqui el código de animacion
-	//posiciono el peon de tal forma que sea visible, para que no lo tape el caballo
-	Coordenadas pos;
-	pos.x = 0;
-	pos.y = 2;
-	peon.setPosicion(pos);
+	//posiciono los peones negros en sus casillas correspondientes
+	static bool inicializado = false;
+	if (!inicializado) {
+		for (int i = 0; i < 9; i++) {
+			Coordenadas pos;
+			pos.x = i;
+			pos.y = 2;
+			peonesNegros[i].setPosicion(pos);
+		}
+		inicializado = true;
+	}
 
 		//no borrar estas lineas
 	glutTimerFunc(25, OnTimer, 0);
