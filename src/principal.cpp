@@ -9,6 +9,7 @@ void OnTimer(int value); //esta funcion sera llamada cuando transcurra una tempo
 void OnKeyboardDown(unsigned char key, int x, int y); //cuando se pulse una tecla	
 
 Peon peonesNegros[9];
+Peon peonesBlancos[9];
 
 int main(int argc, char* argv[])
 {
@@ -65,6 +66,10 @@ void OnDraw(void)
 	for (int i = 0; i < 9; i++) {
 		peonesNegros[i].dibujar_peon();
 	}
+	//Para dibujar los 8 peones blancos
+	for (int i = 1; i < 9; i++) {
+		peonesBlancos[i].dibujar_peon();
+	}
 	
 	//no borrar esta linea ni poner nada despues
 	glutSwapBuffers();
@@ -84,10 +89,13 @@ void OnTimer(int value)
 	static bool inicializado = false;
 	if (!inicializado) {
 		for (int i = 0; i < 9; i++) {
-			Coordenadas pos;
-			pos.x = i;
-			pos.y = 2;
-			peonesNegros[i].setPosicion(pos);
+			peonesNegros[i] = Peon("bin/imagenes/peon_negro.png");
+			peonesBlancos[i] = Peon("bin/imagenes/peon_blanco.png");
+
+		}
+		for (int i = 0; i < 9; i++) {
+			peonesNegros[i].setPosicion({ i, 2 });
+			peonesBlancos[i].setPosicion({ i, 7 });
 		}
 		inicializado = true;
 	}

@@ -4,12 +4,13 @@
 
 class Peon {
     Coordenadas posicion{};
-    ETSIDI::SpriteSequence sprite{ "bin/imagenes/peon_negro.png", 1 };
+    ETSIDI::SpriteSequence sprite;
 
 public:
-    Peon() {
+    Peon(const char* rutaImagen = "bin/imagenes/peon_negro.png")
+        : sprite(rutaImagen, 1) {
         sprite.setCenter(1, 1);
-        sprite.setSize(1, 1); 
+        sprite.setSize(1, 1);
     }
 
     void dibujar_peon();
