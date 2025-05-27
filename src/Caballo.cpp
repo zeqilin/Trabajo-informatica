@@ -2,6 +2,6 @@
 #include"freeglut.h"
 void Caballo::dibujar_caballo() {
 	glPushMatrix();
-	glTranslated(posicion.x, posicion.y, 1);
+	glTranslated(posicion.getX(), posicion.getY(), 0.01);
 	sprite.draw();
 }
