@@ -11,13 +11,13 @@ class Peon {
 public:
     Peon(const char* rutaImagen = "bin/imagenes/peon_negro.png")
         : sprite(rutaImagen, 1), casilla(0, 0, 0.0f, 0.0f) {
-        sprite.setCenter(1, 1);
+        sprite.setCenter(0, 0);
         sprite.setSize(1, 1);
     }
 
     void setCasilla(const Casillas& casilla) {
-        posicion.x = casilla.getX() + 1;
-        posicion.y = casilla.getY() + 1;
+        posicion.x = casilla.getX();
+        posicion.y = casilla.getY();
         sprite.setPos(posicion.x, posicion.y);
     }
 

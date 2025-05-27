@@ -71,10 +71,10 @@ void OnDraw(void)
 	if (!inicializado) {
 		for (int i = 0; i < 8; i++) {
 			peonesNegros[i] = Peon("bin/imagenes/peon_negro.png");
-			peonesNegros[i].setCasilla(tablero.getCasilla(1, i));  // fila 2 para negros
+			peonesNegros[i].setCasilla(tablero.getCasilla(1, i)); 
 
 			peonesBlancos[i] = Peon("bin/imagenes/peon_blanco.png");
-			peonesBlancos[i].setCasilla(tablero.getCasilla(6, i)); // fila 7 para blancos
+			peonesBlancos[i].setCasilla(tablero.getCasilla(6, i));
 		}
 		inicializado = true;
 	}
