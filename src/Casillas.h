@@ -19,6 +19,6 @@ public:
 
     // Setters
     void setPosicionTablero(int f, int c) { fila = f; columna = c; }
-    void setCoordenadas(float x, float y) { x = x; y = y; }
+    void setCoordenadas(float x_, float y_) { x = x_; y = y_; }
 };
 

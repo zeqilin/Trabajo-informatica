@@ -62,13 +62,21 @@ void OnDraw(void)
 		0.0, 1.0, 0.0);
 	tablero.dibujar_tablero();
 	caballo.dibujar_caballo();
-	//Para dibujar los 8 peones negros
-	for (int i = 0; i < 9; i++) {
+	//Para dibujar los peones 
+	for (int i = 0; i < 8; i++) {
 		peonesNegros[i].dibujar_peon();
-	}
-	//Para dibujar los 8 peones blancos
-	for (int i = 1; i < 9; i++) {
 		peonesBlancos[i].dibujar_peon();
+	}
+	static bool inicializado = false;
+	if (!inicializado) {
+		for (int i = 0; i < 8; i++) {
+			peonesNegros[i] = Peon("bin/imagenes/peon_negro.png");
+			peonesNegros[i].setCasilla(tablero.getCasilla(1, i));  // fila 2 para negros
+
+			peonesBlancos[i] = Peon("bin/imagenes/peon_blanco.png");
+			peonesBlancos[i].setCasilla(tablero.getCasilla(6, i)); // fila 7 para blancos
+		}
+		inicializado = true;
 	}
 	
 	//no borrar esta linea ni poner nada despues
@@ -85,22 +93,8 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 void OnTimer(int value)
 {
 	//poner aqui el código de animacion
-	//posiciono los peones negros en sus casillas correspondientes
-	static bool inicializado = false;
-	if (!inicializado) {
-		for (int i = 0; i < 9; i++) {
-			peonesNegros[i] = Peon("bin/imagenes/peon_negro.png");
-			peonesBlancos[i] = Peon("bin/imagenes/peon_blanco.png");
 
-		}
-		for (int i = 0; i < 9; i++) {
-			peonesNegros[i].setPosicion({ i, 2 });
-			peonesBlancos[i].setPosicion({ i, 7 });
-		}
-		inicializado = true;
-	}
-
-		//no borrar estas lineas
+	//no borrar estas lineas
 	glutTimerFunc(25, OnTimer, 0);
 	glutPostRedisplay();
 }
