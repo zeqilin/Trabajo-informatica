@@ -7,9 +7,11 @@
 void OnDraw(void); //esta funcion sera llamada para dibujar
 void OnTimer(int value); //esta funcion sera llamada cuando transcurra una temporizacion
 void OnKeyboardDown(unsigned char key, int x, int y); //cuando se pulse una tecla	
+void inicializar_peones();//función para dibujar los peones
 
 Peon peonesNegros[9];
 Peon peonesBlancos[9];
+tablero tablero;
 
 int main(int argc, char* argv[])
 {
@@ -43,10 +45,28 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
+void inicializar_peones()
+{
+	for (int i = 0; i < 8; i++) {
+		peonesNegros[i].dibujar_peon();
+		peonesBlancos[i].dibujar_peon();
+	}
+	static bool inicializado = false;
+	if (!inicializado) {
+		for (int i = 0; i < 8; i++) {
+			peonesNegros[i] = Peon("bin/imagenes/peon_negro.png");
+			peonesNegros[i].setCasilla(tablero.getCasilla(i, 6)); 
+
+			peonesBlancos[i] = Peon("bin/imagenes/peon_blanco.png");
+			peonesBlancos[i].setCasilla(tablero.getCasilla(i, 1));
+		}
+		inicializado = true;
+	}
+}
 
 void OnDraw(void)
 {
-	tablero tablero;
+	//tablero tablero;
 	Caballo caballo;
 	
 	//Borrado de la pantalla	
@@ -62,22 +82,7 @@ void OnDraw(void)
 		0.0, 1.0, 0.0);
 	tablero.dibujar_tablero();
 	caballo.dibujar_caballo();
-	//Para dibujar los peones 
-	for (int i = 0; i < 8; i++) {
-		peonesNegros[i].dibujar_peon();
-		peonesBlancos[i].dibujar_peon();
-	}
-	static bool inicializado = false;
-	if (!inicializado) {
-		for (int i = 0; i < 8; i++) {
-			peonesNegros[i] = Peon("bin/imagenes/peon_negro.png");
-			peonesNegros[i].setCasilla(tablero.getCasilla(1, i)); 
-
-			peonesBlancos[i] = Peon("bin/imagenes/peon_blanco.png");
-			peonesBlancos[i].setCasilla(tablero.getCasilla(6, i));
-		}
-		inicializado = true;
-	}
+	inicializar_peones();
 	
 	//no borrar esta linea ni poner nada despues
 	glutSwapBuffers();
