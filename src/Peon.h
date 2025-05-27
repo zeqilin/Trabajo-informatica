@@ -14,10 +14,10 @@ public:
     }
 
     void dibujar_peon();
-
-    //creo esta función para elegir la posición de mi peón
-    void setPosicion(Coordenadas pos) {
-        posicion = pos;
-    }
+    void setPosicion(Coordenadas pos) { posicion = pos; }
+    Coordenadas getPosicion() const { return posicion; }
 };
+
+
+
 
