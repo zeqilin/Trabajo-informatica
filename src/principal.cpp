@@ -11,7 +11,8 @@ void inicializar_peones();//función para dibujar los peones
 
 Peon peonesNegros[9];
 Peon peonesBlancos[9];
-tablero tablero;
+tablero table;
+Caballo caballo;
 
 int main(int argc, char* argv[])
 {
@@ -55,10 +56,10 @@ void inicializar_peones()
 	if (!inicializado) {
 		for (int i = 0; i < 8; i++) {
 			peonesNegros[i] = Peon("bin/imagenes/peon_negro.png");
-			peonesNegros[i].setCasilla(tablero.getCasilla(i, 6)); 
+			peonesNegros[i].setCasilla(table.getCasilla(i, 6)); 
 
 			peonesBlancos[i] = Peon("bin/imagenes/peon_blanco.png");
-			peonesBlancos[i].setCasilla(tablero.getCasilla(i, 1));
+			peonesBlancos[i].setCasilla(table.getCasilla(i, 1));
 		}
 		inicializado = true;
 	}
@@ -67,7 +68,7 @@ void inicializar_peones()
 void OnDraw(void)
 {
 	//tablero tablero;
-	Caballo caballo;
+	
 	
 	//Borrado de la pantalla	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -80,7 +81,7 @@ void OnDraw(void)
 	gluLookAt(4, 4, 12,  // posicion del ojo
 		4, 4, 0.0,      // hacia que punto mira  (0,0,0) 
 		0.0, 1.0, 0.0);
-	tablero.dibujar_tablero();
+	table.dibujar_tablero();
 	caballo.dibujar_caballo();
 	inicializar_peones();
 	
@@ -90,10 +91,33 @@ void OnDraw(void)
 void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	//poner aqui el código de teclado
+	
+	int filaActual = caballo.getPosicion().getFila();
+	int columnaActual = caballo.getPosicion().getColumna();
 
+	
+	int nuevaFila = filaActual;
+	int nuevaColumna = columnaActual;
+
+	switch (key) {
+	case 'w': nuevaFila += 1; break; // arriba
+	case 's': nuevaFila -= 1; break; // abajo
+	case 'a': nuevaColumna -= 1; break; // izquierda
+	case 'd': nuevaColumna += 1; break; // derecha
+	default: return;
+	}
+
+	
+	//recibir información del casilla destino	
+	Casillas destino = table.getCasilla(nuevaFila, nuevaColumna);
+
+			// Actualizar posición lógica y visual del caballo
+	caballo.setPosicion(nuevaFila, nuevaColumna, destino.getX(), destino.getY());
+	
 
 	glutPostRedisplay();
 }
+
 
 void OnTimer(int value)
 {
