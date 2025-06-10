@@ -3,16 +3,18 @@
 #include "tablero.h"
 #include "Caballo.h"
 #include "Peon.h"
+#include "moverpiezas.h"
 //NO HACE FALTA LLAMARLAS EXPLICITAMENTE
 void OnDraw(void); //esta funcion sera llamada para dibujar
 void OnTimer(int value); //esta funcion sera llamada cuando transcurra una temporizacion
 void OnKeyboardDown(unsigned char key, int x, int y); //cuando se pulse una tecla	
 void inicializar_peones();//función para dibujar los peones
 
-Peon peonesNegros[9];
-Peon peonesBlancos[9];
+Peon peonesNegros[8];
+Peon peonesBlancos[8];
 tablero table;
 Caballo caballo;
+moverpiezas* mover;
 
 int main(int argc, char* argv[])
 {
@@ -40,6 +42,8 @@ int main(int argc, char* argv[])
 	glutKeyboardFunc(OnKeyboardDown);
 
 	//POSIBLE INICIALIZACION
+	inicializar_peones();
+	mover = new moverpiezas(&caballo, peonesNegros, peonesBlancos, &table);
 
 	//pasarle el control a GLUT,que llamara a los callbacks
 	glutMainLoop();
@@ -92,7 +96,9 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	//poner aqui el código de teclado
 	
-	int filaActual = caballo.getPosicion().getFila();
+	mover->manejarTecla(key);
+
+	/*int filaActual = caballo.getPosicion().getFila();
 	int columnaActual = caballo.getPosicion().getColumna();
 
 	
@@ -112,10 +118,11 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 	Casillas destino = table.getCasilla(nuevaFila, nuevaColumna);
 
 			// Actualizar posición lógica y visual del caballo
-	caballo.setPosicion(nuevaFila, nuevaColumna, destino.getX(), destino.getY());
+	caballo.setPosicion(nuevaFila, nuevaColumna, destino.getX(), destino.getY());*/
 	
 
 	glutPostRedisplay();
+
 }
 
 

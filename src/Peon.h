@@ -20,7 +20,7 @@ public:
         posicion.y = casilla.getY();
         sprite.setPos(posicion.x, posicion.y);
     }
-
+    Coordenadas getPosicion() const { return posicion; }
     void dibujar_peon();
 
 };
