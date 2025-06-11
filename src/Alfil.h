@@ -1,15 +1,22 @@
 #pragma once
-#include "pieza.h"
-
-class Alfil :
-    public pieza
+#include"Casillas.h"
+#include"Coordenadas.h"
+#include "ETSIDI.h" 
+class Alfil
 {
-public:
-   
-    //Constructor del alfil
-    Alfil(int x, int y, bool color);
+		Casillas posicion{};
+		ETSIDI::SpriteSequence sprite{ "bin/imagenes/AlfilN.png", 1 };
+	public:
+	Alfil(int fila = 0, int columna = 0)
+		: posicion(fila, columna) {
+		sprite.setCenter(0, 0);
+		sprite.setSize(1, 1);
+	}
+	Casillas getPosicion() { return posicion; }
+	void setPosicion(int fila, int columna, float x, float y) {
+		posicion.setPosicionTablero(fila, columna);
+		posicion.setCoordenadas(x, y);
+	}
 
-	//Implementación del método mover para el alfil
-	bool mover(int nuevaX, int nuevaY, pieza* tablero[8][8]) override;
+	void dibujar_alfil();
 };
-

@@ -3,6 +3,7 @@
 #include "tablero.h"
 #include "Caballo.h"
 #include "Peon.h"
+#include "Alfil.h"
 #include "moverpiezas.h"
 //NO HACE FALTA LLAMARLAS EXPLICITAMENTE
 void OnDraw(void); //esta funcion sera llamada para dibujar
@@ -14,6 +15,7 @@ Peon peonesNegros[8];
 Peon peonesBlancos[8];
 tablero table;
 Caballo caballo;
+Alfil alfil;
 moverpiezas* mover;
 
 int main(int argc, char* argv[])
@@ -87,6 +89,7 @@ void OnDraw(void)
 		0.0, 1.0, 0.0);
 	table.dibujar_tablero();
 	caballo.dibujar_caballo();
+	alfil.dibujar_alfil();
 	inicializar_peones();
 	
 	//no borrar esta linea ni poner nada despues
