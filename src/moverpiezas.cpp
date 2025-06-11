@@ -51,3 +51,14 @@ void moverpiezas::moverPeon(unsigned char key) {
     Casillas destino = table->getCasilla((int)pos.y, (int)pos.x);
     peon.setCasilla(destino);
 }
+void moverpiezas::moverAlfil(unsigned char key) {
+    int fila = AlfilN->getPosicion().getFila();
+    int col = AlfilN->getPosicion().getColumna();
+    if (key == 'w'&& key=='d'&& fila<0 && col<8) {
+       
+            fila += 1;
+            col += 1;
+            Casillas destino = table->getCasilla(fila, col);
+            AlfilN->setPosicion(fila,col, destino.getX(), destino.getY());
+    }
+}

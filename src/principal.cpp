@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 	//POSIBLE INICIALIZACION
 	alfil.setPosicion(0,0,0.0,5.0);
 	inicializar_peones();
-	mover = new moverpiezas(&caballo, peonesNegros, peonesBlancos, &table);
+	mover = new moverpiezas(&caballo, peonesNegros, peonesBlancos, &table,&alfil);
 
 	//pasarle el control a GLUT,que llamara a los callbacks
 	glutMainLoop();

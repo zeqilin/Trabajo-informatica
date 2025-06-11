@@ -1,9 +1,10 @@
 #pragma once
 #include "Caballo.h"
 #include "Peon.h"
+#include "Alfil.h"
 #include "tablero.h"
 
-enum TipoPieza { NINGUNA, CABALLO, PEON_NEGRO, PEON_BLANCO };
+enum TipoPieza { NINGUNA, CABALLO, PEON_NEGRO, PEON_BLANCO,ALFIL };
 
 class moverpiezas {
     TipoPieza piezaSeleccionada = NINGUNA;
@@ -12,11 +13,12 @@ class moverpiezas {
     Caballo* caballo;
     Peon* peonesNegros;
     Peon* peonesBlancos;
+    Alfil* AlfilN;
     tablero* table;
 
 public:
-    moverpiezas(Caballo* c, Peon* pn, Peon* pb, tablero* t)
-        : caballo(c), peonesNegros(pn), peonesBlancos(pb), table(t) {
+    moverpiezas(Caballo* c, Peon* pn, Peon* pb, tablero* t, Alfil* al)
+        : caballo(c), peonesNegros(pn), peonesBlancos(pb), table(t),AlfilN(al) {
     }
 
     void manejarTecla(unsigned char key);
@@ -24,4 +26,5 @@ public:
 private:
     void moverCaballo(unsigned char key);
     void moverPeon(unsigned char key);
+    void moverAlfil(unsigned char key);
 };
