@@ -44,6 +44,7 @@ int main(int argc, char* argv[])
 	glutKeyboardFunc(OnKeyboardDown);
 
 	//POSIBLE INICIALIZACION
+	alfil.setPosicion(0,0,0.0,5.0);
 	inicializar_peones();
 	mover = new moverpiezas(&caballo, peonesNegros, peonesBlancos, &table);
 
