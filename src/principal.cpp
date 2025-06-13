@@ -6,10 +6,12 @@
 #include "Alfil.h"
 #include "Rey.h"
 #include "moverpiezas.h"
+#include<iostream>
 //NO HACE FALTA LLAMARLAS EXPLICITAMENTE
 void OnDraw(void); //esta funcion sera llamada para dibujar
 void OnTimer(int value); //esta funcion sera llamada cuando transcurra una temporizacion
 void OnKeyboardDown(unsigned char key, int x, int y); //cuando se pulse una tecla	
+void ratonClick(int boton, int estado, int x, int y);
 void inicializar_peones();//función para dibujar los peones
 
 Peon peonesNegros[8];
@@ -44,6 +46,7 @@ int main(int argc, char* argv[])
 	glutDisplayFunc(OnDraw);
 	glutTimerFunc(25, OnTimer, 0);//le decimos que dentro de 25ms llame 1 vez a la funcion OnTimer()
 	glutKeyboardFunc(OnKeyboardDown);
+	glutMouseFunc(ratonClick);
 
 	//POSIBLE INICIALIZACION
 	alfil.setPosicion(0,0,0.0,5.0);
@@ -132,7 +135,24 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 	glutPostRedisplay();
 
 }
+void ratonClick(int boton, int estado, int x, int y) {
+	if (boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
+		int ancho =800;
+		int alto = 600;
+		float x_opengl = static_cast<float>(x) / ancho * 8.0f;
+		float y_opengl = static_cast<float>(alto - y) / alto * 8.0f;
 
+		int columna = static_cast<int>(x_opengl);
+		int fila = static_cast<int>(y_opengl);
+		Casillas destino = table.getCasilla(fila, columna);
+		std::cout << "raton en: (" << fila << ", " << columna << ")" << std::endl;
+		caballo.setPosicion(fila, columna, destino.getX(), destino.getY());
+		
+		
+		glutPostRedisplay();
+	}
+
+}
 
 void OnTimer(int value)
 {
