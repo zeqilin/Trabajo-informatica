@@ -5,7 +5,7 @@
 #include "Peon.h"
 #include "Alfil.h"
 #include "Rey.h"
-#include "moverpiezas.h"
+//#include "moverpiezas.h"
 #include<iostream>
 //NO HACE FALTA LLAMARLAS EXPLICITAMENTE
 void OnDraw(void); //esta funcion sera llamada para dibujar
@@ -13,14 +13,16 @@ void OnTimer(int value); //esta funcion sera llamada cuando transcurra una tempo
 void OnKeyboardDown(unsigned char key, int x, int y); //cuando se pulse una tecla	
 void ratonClick(int boton, int estado, int x, int y);
 void inicializar_peones();//función para dibujar los peones
+void inicializar_rey();
 
 Peon peonesNegros[8];
 Peon peonesBlancos[8];
 tablero table;
 Caballo caballo;
 Alfil alfil;
-Rey rey;
-moverpiezas* mover;
+Rey reyNegro;
+Rey reyBlanco;
+//moverpiezas* mover;
 
 int main(int argc, char* argv[])
 {
@@ -50,9 +52,9 @@ int main(int argc, char* argv[])
 
 	//POSIBLE INICIALIZACION
 	alfil.setPosicion(0,0,0.0,5.0);
-	rey.setPosicion(0, 0, 0.0, 4.0);
+	inicializar_rey();
 	inicializar_peones();
-	mover = new moverpiezas(&caballo, peonesNegros, peonesBlancos, &table,&alfil);
+	//mover = new moverpiezas(&caballo, peonesNegros, peonesBlancos, &table,&alfil);
 
 	//pasarle el control a GLUT,que llamara a los callbacks
 	glutMainLoop();
@@ -69,13 +71,30 @@ void inicializar_peones()
 	if (!inicializado) {
 		for (int i = 0; i < 8; i++) {
 			peonesNegros[i] = Peon("bin/imagenes/peon_negro.png");
-			peonesNegros[i].setCasilla(table.getCasilla(i, 6)); 
+			peonesNegros[i].setPosicion(0, 0, 6.0, i);
 
 			peonesBlancos[i] = Peon("bin/imagenes/peon_blanco.png");
-			peonesBlancos[i].setCasilla(table.getCasilla(i, 1));
+			peonesBlancos[i].setPosicion(0, 0, 1.0, i);
 		}
 		inicializado = true;
 	}
+}
+void inicializar_rey()
+{
+	reyNegro.dibujar_rey();
+	reyBlanco.dibujar_rey();
+	
+	static bool inicializado = false;
+	if (!inicializado) 
+	{
+			reyNegro = Rey("bin/imagenes/rey_negro.png");
+			reyNegro.setPosicion(0, 0, 7.0, 3.0);
+
+			reyBlanco = Rey("bin/imagenes/rey_blanco.png");
+			reyBlanco.setPosicion(0, 0, 0.0, 4.0);
+	}
+	inicializado = true;
+	
 }
 
 void OnDraw(void)
@@ -97,7 +116,7 @@ void OnDraw(void)
 	table.dibujar_tablero();
 	caballo.dibujar_caballo();
 	alfil.dibujar_alfil();
-	rey.dibujar_rey();
+	inicializar_rey();
 	inicializar_peones();
 	
 	//no borrar esta linea ni poner nada despues
@@ -107,7 +126,7 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	//poner aqui el código de teclado
 	
-	mover->manejarTecla(key);
+	//mover->manejarTecla(key);
 
 	/*int filaActual = caballo.getPosicion().getFila();
 	int columnaActual = caballo.getPosicion().getColumna();

@@ -4,27 +4,23 @@
 #include "Casillas.h"
 
 class Peon {
-    Coordenadas posicion{};
+    Casillas posicion{};
     ETSIDI::SpriteSequence sprite;
-    Casillas casilla;
 
 public:
-    Peon(const char* rutaImagen = "bin/imagenes/peon_negro.png")
-        : sprite(rutaImagen, 1), casilla(0, 0, 0.0f, 0.0f) {
+    Peon(const char* rutaImagen = "bin/imagenes/peon_negro.png", int fila = 0, int columna = 0)
+        : sprite(rutaImagen, 1), posicion(fila, columna) {
         sprite.setCenter(0, 0);
         sprite.setSize(1, 1);
     }
 
-    void setCasilla(const Casillas& casilla) {
-        posicion.x = casilla.getX();
-        posicion.y = casilla.getY();
-        sprite.setPos(posicion.x, posicion.y);
+    Casillas getPosicion() { return posicion; }
+
+    void setPosicion(int fila, int columna, float x, float y) {
+        posicion.setPosicionTablero(fila, columna);
+        posicion.setCoordenadas(x, y);
     }
-    Coordenadas getPosicion() const { return posicion; }
+
     void dibujar_peon();
 
 };
-
-
-
-

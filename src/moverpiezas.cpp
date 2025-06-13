@@ -1,5 +1,5 @@
 #include "moverpiezas.h"
-void moverpiezas::manejarTecla(unsigned char key) {
+/*void moverpiezas::manejarTecla(unsigned char key) {
     if (key == 'c') {
         piezaSeleccionada = CABALLO;
         peonSeleccionado = -1;
@@ -22,7 +22,7 @@ void moverpiezas::manejarTecla(unsigned char key) {
         else if (piezaSeleccionada == PEON_NEGRO || piezaSeleccionada == PEON_BLANCO)
             moverPeon(key);
     }
-}
+}*/
 
 void moverpiezas::moverCaballo(unsigned char key) {
     int fila = caballo->getPosicion().getFila();
@@ -37,7 +37,7 @@ void moverpiezas::moverCaballo(unsigned char key) {
     caballo->setPosicion(fila, col, destino.getX(), destino.getY());
 }
 
-void moverpiezas::moverPeon(unsigned char key) {
+/*void moverpiezas::moverPeon(unsigned char key) {
     if (peonSeleccionado < 0 || peonSeleccionado >= 8) return;
 
     Peon& peon = (piezaSeleccionada == PEON_NEGRO) ? peonesNegros[peonSeleccionado] : peonesBlancos[peonSeleccionado];
@@ -61,4 +61,4 @@ void moverpiezas::moverAlfil(unsigned char key) {
             Casillas destino = table->getCasilla(fila, col);
             AlfilN->setPosicion(fila,col, destino.getX(), destino.getY());
     }
-}
+}*/

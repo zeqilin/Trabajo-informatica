@@ -2,6 +2,7 @@
 #include "freeglut.h"
 
 void Peon::dibujar_peon() {
-    glTranslated(casilla.getX(), casilla.getY(), 0.01);
-    sprite.draw();
+	glPushMatrix();
+	glTranslated(posicion.getX(), posicion.getY(), 0.01);
+	sprite.draw();
 }
