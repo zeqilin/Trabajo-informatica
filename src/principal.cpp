@@ -1,28 +1,14 @@
 #include "freeglut.h"
 #include "ETSIDI.h"
-#include "tablero.h"
-#include "Caballo.h"
-#include "Peon.h"
-#include "Alfil.h"
-#include "Rey.h"
-//#include "moverpiezas.h"
+#include "mundo.h"
 #include<iostream>
 //NO HACE FALTA LLAMARLAS EXPLICITAMENTE
 void OnDraw(void); //esta funcion sera llamada para dibujar
 void OnTimer(int value); //esta funcion sera llamada cuando transcurra una temporizacion
 void OnKeyboardDown(unsigned char key, int x, int y); //cuando se pulse una tecla	
 void ratonClick(int boton, int estado, int x, int y);
-void inicializar_peones();//función para dibujar los peones
-void inicializar_rey();
 
-Peon peonesNegros[8];
-Peon peonesBlancos[8];
-tablero table;
-Caballo caballo;
-Alfil alfil;
-Rey reyNegro;
-Rey reyBlanco;
-//moverpiezas* mover;
+mundo Mundo;
 
 int main(int argc, char* argv[])
 {
@@ -51,56 +37,15 @@ int main(int argc, char* argv[])
 	glutMouseFunc(ratonClick);
 
 	//POSIBLE INICIALIZACION
-	alfil.setPosicion(0,0,0.0,5.0);
-	inicializar_rey();
-	inicializar_peones();
-	//mover = new moverpiezas(&caballo, peonesNegros, peonesBlancos, &table,&alfil);
 
 	//pasarle el control a GLUT,que llamara a los callbacks
+	
 	glutMainLoop();
 
 	return 0;
 }
-void inicializar_peones()
-{
-	for (int i = 0; i < 8; i++) {
-		peonesNegros[i].dibujar_peon();
-		peonesBlancos[i].dibujar_peon();
-	}
-	static bool inicializado = false;
-	if (!inicializado) {
-		for (int i = 0; i < 8; i++) {
-			peonesNegros[i] = Peon("bin/imagenes/peon_negro.png");
-			peonesNegros[i].setPosicion(0, 0, 6.0, i);
-
-			peonesBlancos[i] = Peon("bin/imagenes/peon_blanco.png");
-			peonesBlancos[i].setPosicion(0, 0, 1.0, i);
-		}
-		inicializado = true;
-	}
-}
-void inicializar_rey()
-{
-	reyNegro.dibujar_rey();
-	reyBlanco.dibujar_rey();
-	
-	static bool inicializado = false;
-	if (!inicializado) 
-	{
-			reyNegro = Rey("bin/imagenes/rey_negro.png");
-			reyNegro.setPosicion(0, 0, 7.0, 3.0);
-
-			reyBlanco = Rey("bin/imagenes/rey_blanco.png");
-			reyBlanco.setPosicion(0, 0, 0.0, 4.0);
-	}
-	inicializado = true;
-	
-}
-
 void OnDraw(void)
 {
-	//tablero tablero;
-	
 	
 	//Borrado de la pantalla	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -113,11 +58,8 @@ void OnDraw(void)
 	gluLookAt(4, 4, 12,  // posicion del ojo
 		4, 4, 0.0,      // hacia que punto mira  (0,0,0) 
 		0.0, 1.0, 0.0);
-	table.dibujar_tablero();
-	caballo.dibujar_caballo();
-	alfil.dibujar_alfil();
-	inicializar_rey();
-	inicializar_peones();
+
+	Mundo.dibuja();
 	
 	//no borrar esta linea ni poner nada despues
 	glutSwapBuffers();
@@ -163,10 +105,8 @@ void ratonClick(int boton, int estado, int x, int y) {
 
 		int columna = static_cast<int>(x_opengl);
 		int fila = static_cast<int>(y_opengl);
-		Casillas destino = table.getCasilla(fila, columna);
-		std::cout << "raton en: (" << fila << ", " << columna << ")" << std::endl;
-		caballo.setPosicion(fila, columna, destino.getX(), destino.getY());
 		
+		Mundo.clickRaton(fila, columna);
 		
 		glutPostRedisplay();
 	}
