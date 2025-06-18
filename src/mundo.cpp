@@ -7,17 +7,17 @@ mundo::mundo() {
 void mundo::inicializa() {
     alfil.setPosicion(0, 0, 0.0, 5.0);
 
-    reyNegro = Rey("bin/imagenes/rey_negro.png");
+   // reyNegro = Rey("bin/imagenes/rey_negro.png");
     reyNegro.setPosicion(0, 0, 7.0, 3.0);
 
-    reyBlanco = Rey("bin/imagenes/rey_blanco.png");
+    //reyBlanco = Rey("bin/imagenes/rey_blanco.png");
     reyBlanco.setPosicion(0, 0, 0.0, 4.0);
 
     for (int i = 0; i < 8; i++) {
-        peonesNegros[i] = Peon("bin/imagenes/peon_negro.png");
+        //peonesNegros[i] = Peon("bin/imagenes/peon_negro.png");
         peonesNegros[i].setPosicion(0, 0, 6.0, i);
 
-        peonesBlancos[i] = Peon("bin/imagenes/peon_blanco.png");
+        //peonesBlancos[i] = Peon("bin/imagenes/peon_blanco.png");
         peonesBlancos[i].setPosicion(0, 0, 1.0, i);
     }
 
