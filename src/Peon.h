@@ -5,14 +5,14 @@
 
 class Peon {
     Casillas posicion{};
-    ETSIDI::SpriteSequence sprite;
+	ETSIDI::SpriteSequence sprite{ "bin/imagenes/peon_negro.png", 1 };
 
 public:
-    Peon(const char* rutaImagen = "bin/imagenes/peon_negro.png", int fila = 0, int columna = 0)
-        : sprite(rutaImagen, 1), posicion(fila, columna) {
-        sprite.setCenter(0, 0);
-        sprite.setSize(1, 1);
-    }
+	Peon(int fila = 0, int columna = 0)
+		: posicion(fila, columna) {
+		sprite.setCenter(0, 0);
+		sprite.setSize(1, 1);
+	}
 
     Casillas getPosicion() { return posicion; }
 
@@ -24,3 +24,4 @@ public:
     void dibujar_peon();
 
 };
+

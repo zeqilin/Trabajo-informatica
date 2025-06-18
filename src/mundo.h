@@ -12,9 +12,7 @@ class mundo
     Caballo caballo;
     Alfil alfil;
     Rey reyNegro;
-    Rey reyBlanco;
     Peon peonesNegros[8];
-    Peon peonesBlancos[8];
 public:
     mundo();
     void inicializa();
