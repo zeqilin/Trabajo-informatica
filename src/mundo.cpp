@@ -17,6 +17,8 @@ void mundo::inicializa() {
     for (int i = 0; i < 8; i++) {
         peonesNegros[i].setPosicion(0, 0, 6.0, i);
     }
+    caballoNegroarriba= Caballo(6, 0, Color::Negro);
+    caballoNegroabajo = Caballo(1, 0, Color::Negro);
     caballoNegroarriba.setPosicion(6, 0, c1.getX(), c1.getY());
     caballoNegroabajo.setPosicion(1, 0, c2.getX(), c2.getY());
     std::cout << "Caballo1 en: (" << caballoNegroarriba.getPosicion().getFila() << "," << caballoNegroarriba.getPosicion().getColumna() << ")\n";
@@ -43,7 +45,7 @@ void mundo::dibuja() {
 void mundo::clickRaton(int fila, int columna) {
 
     Casillas destino = table.getCasilla(fila, columna);
-    caballoNegroabajo.setPosicion(fila, columna, destino.getX(), destino.getY());
+    caballoNegroarriba.setPosicion(fila, columna, destino.getX(), destino.getY());
     std::cout << "raton en: (" << fila << ", " << columna << ")" << std::endl;
     std::cout << "raton en: (" << destino.getX() << ", " << destino.getY() << ")" << std::endl;
 }
