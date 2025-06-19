@@ -30,6 +30,7 @@ int main(int argc, char* argv[])
 	glMatrixMode(GL_PROJECTION);
 	gluPerspective(40.0, 800 / 600.0f, 0.1, 150);
 
+
 	//Registrar los callbacks
 	glutDisplayFunc(OnDraw);
 	glutTimerFunc(25, OnTimer, 0);//le decimos que dentro de 25ms llame 1 vez a la funcion OnTimer()
@@ -97,20 +98,40 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 
 }
 void ratonClick(int boton, int estado, int x, int y) {
-	if (boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
-		int ancho =800;
-		int alto = 600;
-		float x_opengl = static_cast<float>(x) / ancho * 8.0f;
-		float y_opengl = static_cast<float>(alto - y) / alto * 8.0f;
+	
+  if (boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
+        // Dimensiones de la ventana (en píxeles)
+        int ventanaAncho = 800;
+        int ventanaAlto = 600;
 
-		int columna = static_cast<int>(x_opengl);
-		int fila = static_cast<int>(y_opengl);
-		
-		Mundo.clickRaton(fila, columna);
-		
-		glutPostRedisplay();
-	}
+        // Suponemos que el tablero ocupa un cuadrado de 600x600 píxeles
+        int ladoTablero = 600;
 
+        // Calculamos márgenes 
+        int margenX = (ventanaAncho - ladoTablero) / 2;
+       
+
+        // Verificamos si el clic está dentro del tablero
+        if (x >= margenX && x < margenX + ladoTablero) {
+
+            // Coordenadas relativas dentro del tablero, como captaba filas bien anteriormente a y no le asigno margen
+            int xRel = x - margenX;
+			int yRel = y;
+
+            // Tamaño de una casilla en píxeles 
+            int tamCasilla = ladoTablero / 8;
+
+            // Convertimos a coordenadas del tablero (fila y columna)
+            int columna = xRel / tamCasilla;
+            int fila = 7 - (yRel / tamCasilla);  // Invertimos Y (porque GLUT tiene origen arriba)
+
+            // Llamamos al método que maneja el clic
+            Mundo.clickRaton(fila, columna);
+
+            // Redibuja la escena
+            glutPostRedisplay();
+        }
+    }
 }
 
 void OnTimer(int value)
