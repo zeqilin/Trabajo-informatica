@@ -4,7 +4,7 @@ tablero::tablero() {//constructor para poder guardar las posiciones
     for (int fila = 0; fila < 8; fila++) {
         for (int col = 0; col < 8; col++) {
             float x = col * tamañocuadrado;
-            float y = fila * tamañocuadrado;
+            float y = fila * tamañocuadrado;  
             casillas[fila][col] = Casillas(fila, col, x, y);
         }
     }

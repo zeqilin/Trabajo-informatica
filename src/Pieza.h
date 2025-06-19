@@ -4,7 +4,7 @@
 enum class Color { Blanco, Negro };
 
 class Pieza {
-
+protected:
     Casillas posicion;
     Color color;
 

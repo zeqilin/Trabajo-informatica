@@ -6,13 +6,17 @@
 #include "Peon.h"
 #include "Alfil.h"
 #include "Rey.h"
+
 class mundo
 {
     tablero table;
-    Caballo caballo;
+    //Caballo caballo;
     Alfil alfil;
     Rey reyNegro;
     Peon peonesNegros[8];
+    Caballo caballoNegroarriba;
+    Caballo caballoNegroabajo;
+
 public:
     mundo();
     void inicializa();

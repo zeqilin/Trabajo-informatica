@@ -1,23 +1,30 @@
 #pragma once
-#include"Casillas.h"
-#include"Coordenadas.h"
-#include "ETSIDI.h" 
-class Caballo
-{
-	Casillas posicion{};
-	ETSIDI::SpriteSequence sprite{ "bin/imagenes/caballo_negro.png", 1 };
+#include "Pieza.h"
+#include "ETSIDI.h"
+#include "freeglut.h"
+
+class Caballo : public Pieza {
+    ETSIDI::SpriteSequence sprite;  // declarado sin inicializar
+
 public:
-	Caballo(int fila = 0, int columna = 0)
-		: posicion(fila, columna) {
-		sprite.setCenter(0, 0);
-		sprite.setSize(1, 1);
-	}
-	Casillas getPosicion() { return posicion; }
-	void setPosicion(int fila, int columna, float x, float y) {
-		posicion.setPosicionTablero(fila, columna);
-		posicion.setCoordenadas(x, y);
-	}
+    //en un principio se ha planteado poner el la diferenciacion de ruta de imagen fuera del constructor para que sea mas lejible pero ETSIDI::SpriteSequence no tiene constructor por defecto
+    Caballo(int fila = 0, int columna = 0, Color col = Color::Negro)
+        : Pieza(fila, columna, col),sprite((col == Color::Blanco) ? "bin/imagenes/caballo_blanco.png" : "bin/imagenes/caballo_negro.png", 1)
+    {
+        sprite.setCenter(0, 0);
+        sprite.setSize(1, 1);
+    }
+
+    /*void inicializarSprite(Color col) {
+        if (col == Color::Blanco)
+            sprite = ETSIDI::SpriteSequence("bin/imagenes/caballo_blanco.png", 1);
+        else
+            sprite = ETSIDI::SpriteSequence("bin/imagenes/caballo_negro.png", 1);
+
+        sprite.setCenter(0, 0);
+        sprite.setSize(1, 1);
+    }*/
+    void dibujar() override;
 
 
-	void dibujar_caballo();
 };
