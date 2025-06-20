@@ -1,24 +1,26 @@
 #pragma once
+#include "Pieza.h"
 #include"Casillas.h"
 #include"Coordenadas.h"
 #include "ETSIDI.h" 
-class Rey {
-	Casillas posicion{};
-	ETSIDI::SpriteSequence sprite{ "bin/imagenes/rey_negro.png", 1 };
+class Rey : public Pieza {
+    ETSIDI::SpriteSequence sprite;
 public:
-	Rey(int fila = 0, int columna = 0)
-		: posicion(fila, columna) {
-		sprite.setCenter(0, 0);
-		sprite.setSize(1, 1);
-	}
+	Rey(int fila = 0, int columna = 0, Color col = Color::Negro)
+        : Pieza(fila, columna, col), sprite((col == Color::Blanco) ? "bin/imagenes/rey_blanco.png" : "bin/imagenes/rey_negro.png", 1)
+    {
+        sprite.setCenter(0, 0);
+        sprite.setSize(1, 1);
+    }
+    /*void inicializarSprite(Color col) {
+        if (col == Color::Blanco)
+            sprite = ETSIDI::SpriteSequence("bin/imagenes/rey_blanco.png", 1);
+        else
+            sprite = ETSIDI::SpriteSequence("bin/imagenes/rey_negro.png", 1);
 
+        sprite.setCenter(0, 0);
+        sprite.setSize(1, 1);
+    }*/
 
-	Casillas getPosicion() { return posicion; }
-
-	void setPosicion(int fila, int columna, float x, float y) {
-		posicion.setPosicionTablero(fila, columna);
-		posicion.setCoordenadas(x, y);
-	}
-
-	void dibujar_rey();
+    void dibujar() override;
 };
