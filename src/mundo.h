@@ -13,6 +13,7 @@ class mundo
     //Caballo caballo;
     Alfil alfil;
     Rey reyNegro;
+    Rey reyBlanco;
     Peon peonesNegros[8];
     Caballo caballoNegroarriba;
     Caballo caballoNegroabajo;
