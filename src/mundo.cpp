@@ -5,10 +5,11 @@ mundo::mundo() {
 }
 
 void mundo::inicializa() {
+    Peon::cargarSprites();
     Casillas c1 = table.getCasilla(6, 0); // b8
     Casillas c2 = table.getCasilla(1, 0); //g8
     Casillas c3 = table.getCasilla(3, 0);
-    Casillas c5 = table.getCasilla(3, 7);
+    Casillas c4 = table.getCasilla(3, 7);
    // std::cout << "Caballo arriba pos: (" << c1.getX() << ", " << c1.getY() << ")\n";
     //std::cout << "Caballo abajo pos: (" << c2.getX() << ", " << c2.getY() << ")\n";
 
@@ -18,10 +19,17 @@ void mundo::inicializa() {
     reyNegro = Rey(3, 0, Color::Negro);
     reyNegro.setPosicion(3, 0, c3.getX(), c3.getY());
     reyBlanco = Rey(3, 7, Color::Blanco);
-    reyBlanco.setPosicion(3, 7, c5.getX(), c5.getY());
+    reyBlanco.setPosicion(3, 7, c4.getX(), c4.getY());
+
     for (int i = 0; i < 8; i++) {
-        Casillas c4 = table.getCasilla(i, 1); // fila 6 para peones negros
-        peonesNegros[i].setPosicion(i, 1, c4.getX(), c4.getY());
+        Casillas c = table.getCasilla(i, 1); 
+        peonesNegros[i] = Peon(i, 1, Color::Negro);
+        peonesNegros[i].setPosicion(i, 1, c.getX(), c.getY());
+    }
+    for (int i = 0; i < 8; i++) {
+        Casillas c = table.getCasilla(i, 6); 
+        peonesBlancos[i] = Peon(i, 6, Color::Blanco);
+        peonesBlancos[i].setPosicion(i, 6, c.getX(), c.getY());
     }
     
     caballoNegroarriba= Caballo(6, 0, Color::Negro);
@@ -45,6 +53,9 @@ void mundo::dibuja() {
     reyBlanco.dibujar();
     for (int i = 0; i < 8; i++) {
         peonesNegros[i].dibujar();
+    }
+    for (int i = 0; i < 8; i++) {
+        peonesBlancos[i].dibujar();
     }
 
 }

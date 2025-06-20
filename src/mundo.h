@@ -15,6 +15,7 @@ class mundo
     Rey reyNegro;
     Rey reyBlanco;
     Peon peonesNegros[8];
+    Peon peonesBlancos[8];
     Caballo caballoNegroarriba;
     Caballo caballoNegroabajo;
 

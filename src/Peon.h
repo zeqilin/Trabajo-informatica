@@ -3,25 +3,22 @@
 #include "Coordenadas.h"
 #include "ETSIDI.h"
 #include "Casillas.h"
-
-class Peon :public Pieza {
-    ETSIDI::SpriteSequence sprite;
+class Peon : public Pieza {
+    static ETSIDI::SpriteSequence* spriteBlanco;
+    static ETSIDI::SpriteSequence* spriteNegro;
+    ETSIDI::SpriteSequence* sprite = nullptr;
 
 public:
-	Peon(int fila = 0, int columna = 0, Color col = Color::Negro)
-        : Pieza(fila, columna, col), sprite((col == Color::Blanco) ? "bin/imagenes/peon_blanco.png" : "bin/imagenes/peon_negro.png", 1)
+    Peon(int fila = 0, int columna = 0, Color col = Color::Negro)
+        : Pieza(fila, columna, col)
     {
-        sprite.setCenter(0, 0);
-        sprite.setSize(1, 1);
-    }
-    /*void inicializarSprite(Color col) {
         if (col == Color::Blanco)
-            sprite = ETSIDI::SpriteSequence("bin/imagenes/peon_blanco.png", 1);
+            sprite = spriteBlanco;
         else
-            sprite = ETSIDI::SpriteSequence("bin/imagenes/peon_negro.png", 1);
+            sprite = spriteNegro;
+    }
 
-        sprite.setCenter(0, 0);
-        sprite.setSize(1, 1);
-    }*/
+    static void cargarSprites();
+
     void dibujar() override;
 };

@@ -12,15 +12,5 @@ public:
         sprite.setCenter(0, 0);
         sprite.setSize(1, 1);
     }
-    /*void inicializarSprite(Color col) {
-        if (col == Color::Blanco)
-            sprite = ETSIDI::SpriteSequence("bin/imagenes/rey_blanco.png", 1);
-        else
-            sprite = ETSIDI::SpriteSequence("bin/imagenes/rey_negro.png", 1);
-
-        sprite.setCenter(0, 0);
-        sprite.setSize(1, 1);
-    }*/
-
     void dibujar() override;
 };
