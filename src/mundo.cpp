@@ -18,26 +18,35 @@ void mundo::inicializa() {
     alfil.setPosicion(0, 0, 0.0, 5.0);
     reyNegro = new Rey(3, 0, Color::Negro);
     reyNegro->setPosicion(3, 0, c3.getX(), c3.getY());
+    piezas.push_back(reyNegro);
+
     reyBlanco = new Rey(3, 7, Color::Blanco);
     reyBlanco->setPosicion(3, 7, c4.getX(), c4.getY());
+    piezas.push_back(reyBlanco);
 
     for (int i = 0; i < 8; i++) {
-        Casillas c = table.getCasilla(i, 1); 
+        Casillas c = table.getCasilla(i, 1);
         peonesNegros[i] = new Peon(i, 1, Color::Negro);
         peonesNegros[i]->setPosicion(i, 1, c.getX(), c.getY());
+        piezas.push_back(peonesNegros[i]);
     }
     for (int i = 0; i < 8; i++) {
-        Casillas c = table.getCasilla(i, 6); 
+        Casillas c = table.getCasilla(i, 6);
         peonesBlancos[i] = new Peon(i, 6, Color::Blanco);
         peonesBlancos[i]->setPosicion(i, 6, c.getX(), c.getY());
+        piezas.push_back(peonesBlancos[i]);
     }
     
-    caballoNegroarriba= Caballo(6, 0, Color::Negro);
-    caballoNegroabajo = Caballo(1, 0, Color::Negro);
-    caballoNegroarriba.setPosicion(6, 0, c1.getX(), c1.getY());
-    caballoNegroabajo.setPosicion(1, 0, c2.getX(), c2.getY());
-    std::cout << "Caballo1 en: (" << caballoNegroarriba.getPosicion().getFila() << "," << caballoNegroarriba.getPosicion().getColumna() << ")\n";
-    std::cout << "Caballo2 en: (" << caballoNegroabajo.getPosicion().getFila() << "," << caballoNegroabajo.getPosicion().getColumna() << ")\n";
+    caballoNegroarriba = new Caballo(6, 0, Color::Negro);
+    caballoNegroarriba->setPosicion(6, 0, c1.getX(), c1.getY());
+    piezas.push_back(caballoNegroarriba);
+
+    caballoNegroabajo = new Caballo(1, 0, Color::Negro);
+    caballoNegroabajo->setPosicion(1, 0, c2.getX(), c2.getY());
+    piezas.push_back(caballoNegroabajo);
+
+    std::cout << "Caballo1 en: (" << caballoNegroarriba->getPosicion().getFila() << "," << caballoNegroarriba->getPosicion().getColumna() << ")\n";
+    std::cout << "Caballo2 en: (" << caballoNegroabajo->getPosicion().getFila() << "," << caballoNegroabajo->getPosicion().getColumna() << ")\n";
 
 
 }
@@ -47,7 +56,7 @@ void mundo::dibuja() {
     
    //alfil.dibujar_alfil();
        
-    caballoNegroarriba.dibujar();
+    /*caballoNegroarriba.dibujar();
     caballoNegroabajo.dibujar();
     reyNegro->dibujar();
     reyBlanco->dibujar();
@@ -56,6 +65,9 @@ void mundo::dibuja() {
     }
     for (int i = 0; i < 8; i++) {
         peonesBlancos[i]->dibujar();
+    }*/
+    for (auto pieza : piezas) {
+        pieza->dibujar();
     }
 
 }
@@ -64,7 +76,7 @@ void mundo::dibuja() {
 void mundo::clickRaton(int fila, int columna) {
 
     Casillas destino = table.getCasilla(fila, columna);
-    caballoNegroarriba.setPosicion(fila, columna, destino.getX(), destino.getY());
+    caballoNegroarriba->setPosicion(fila, columna, destino.getX(), destino.getY());
     std::cout << "raton en: (" << fila << ", " << columna << ")" << std::endl;
     std::cout << "raton en: (" << destino.getX() << ", " << destino.getY() << ")" << std::endl;
 }

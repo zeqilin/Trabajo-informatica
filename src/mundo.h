@@ -1,4 +1,5 @@
 #pragma once
+#include<vector>
 #include "freeglut.h"
 #include "ETSIDI.h"
 #include "tablero.h"
@@ -6,9 +7,11 @@
 #include "Peon.h"
 #include "Alfil.h"
 #include "Rey.h"
-
+using std::vector;
 class mundo
 {
+    vector<Pieza*> piezas;
+    //Pieza* piezaSeleccionada;
     tablero table;
     //Caballo caballo;
     Alfil alfil;
@@ -16,8 +19,9 @@ class mundo
     Rey* reyBlanco;
     Peon* peonesNegros[8];
     Peon* peonesBlancos[8];
-    Caballo caballoNegroarriba;
-    Caballo caballoNegroabajo;
+    Caballo* caballoNegroarriba;
+    Caballo* caballoNegroabajo;
+
 
 public:
     mundo();
