@@ -16,20 +16,20 @@ void mundo::inicializa() {
     // Asignar posiciones
    
     alfil.setPosicion(0, 0, 0.0, 5.0);
-    reyNegro = Rey(3, 0, Color::Negro);
-    reyNegro.setPosicion(3, 0, c3.getX(), c3.getY());
-    reyBlanco = Rey(3, 7, Color::Blanco);
-    reyBlanco.setPosicion(3, 7, c4.getX(), c4.getY());
+    reyNegro = new Rey(3, 0, Color::Negro);
+    reyNegro->setPosicion(3, 0, c3.getX(), c3.getY());
+    reyBlanco = new Rey(3, 7, Color::Blanco);
+    reyBlanco->setPosicion(3, 7, c4.getX(), c4.getY());
 
     for (int i = 0; i < 8; i++) {
         Casillas c = table.getCasilla(i, 1); 
-        peonesNegros[i] = Peon(i, 1, Color::Negro);
-        peonesNegros[i].setPosicion(i, 1, c.getX(), c.getY());
+        peonesNegros[i] = new Peon(i, 1, Color::Negro);
+        peonesNegros[i]->setPosicion(i, 1, c.getX(), c.getY());
     }
     for (int i = 0; i < 8; i++) {
         Casillas c = table.getCasilla(i, 6); 
-        peonesBlancos[i] = Peon(i, 6, Color::Blanco);
-        peonesBlancos[i].setPosicion(i, 6, c.getX(), c.getY());
+        peonesBlancos[i] = new Peon(i, 6, Color::Blanco);
+        peonesBlancos[i]->setPosicion(i, 6, c.getX(), c.getY());
     }
     
     caballoNegroarriba= Caballo(6, 0, Color::Negro);
@@ -49,13 +49,13 @@ void mundo::dibuja() {
        
     caballoNegroarriba.dibujar();
     caballoNegroabajo.dibujar();
-    reyNegro.dibujar();
-    reyBlanco.dibujar();
+    reyNegro->dibujar();
+    reyBlanco->dibujar();
     for (int i = 0; i < 8; i++) {
-        peonesNegros[i].dibujar();
+        peonesNegros[i]->dibujar();
     }
     for (int i = 0; i < 8; i++) {
-        peonesBlancos[i].dibujar();
+        peonesBlancos[i]->dibujar();
     }
 
 }
