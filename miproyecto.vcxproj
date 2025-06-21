@@ -28,6 +28,7 @@
     <ClCompile Include="src\principal.cpp" />
     <ClCompile Include="src\Rey.cpp" />
     <ClCompile Include="src\tablero.cpp" />
+    <ClCompile Include="Torre.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Alfil.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="src\Pieza.h" />
     <ClInclude Include="src\Rey.h" />
     <ClInclude Include="src\tablero.h" />
+    <ClInclude Include="Torre.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

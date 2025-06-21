@@ -17,6 +17,7 @@ void mundo::inicializa() {
     // Asignar posiciones
    
     alfil.setPosicion(0, 0, 0.0, 5.0);
+    torre.setPosicion( 0,0, 0.0, 0.0);
     reyNegro = new Rey(3, 0, Color::Negro);
     reyNegro->setPosicion(3, 0, c3.getX(), c3.getY());
     piezas.push_back(reyNegro);
