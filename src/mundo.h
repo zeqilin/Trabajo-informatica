@@ -21,6 +21,7 @@ class mundo
     Peon* peonesBlancos[8];
     Caballo* caballoNegroarriba;
     Caballo* caballoNegroabajo;
+    Color TurnoActual;
 
 
 public:

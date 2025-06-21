@@ -6,6 +6,7 @@ mundo::mundo() {
 
 void mundo::inicializa() {
     Peon::cargarSprites();
+    TurnoActual = Color::Blanco;
     Casillas c1 = table.getCasilla(6, 0); // b8
     Casillas c2 = table.getCasilla(1, 0); //g8
     Casillas c3 = table.getCasilla(3, 0);
@@ -91,16 +92,26 @@ void mundo::clickRaton(int fila, int columna) {
         // Primer clic: seleccionar
         piezaSeleccionada = PiezaenPosicion(fila, columna);
         if (piezaSeleccionada) {
-            std::cout << "Pieza seleccionada en (" << fila << ", " << columna << ")\n";
+            if (piezaSeleccionada->getColor() == TurnoActual) {
+                std::cout << "Pieza seleccionada en (" << fila << ", " << columna << ")\n";
+            }
+            else {
+                std::cout << "No es tu turno\n";
+                piezaSeleccionada = nullptr;
+            }
         }
         else {
             std::cout << "No hay pieza en esa casilla\n";
         }
     }
     else {
-        // Segundo clic: mover
+        // Segundo clic: intentar mover
         piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
         std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
+
+        // Cambiamos el turno después de mover
+        TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
+
         piezaSeleccionada = nullptr;  // Deseleccionamos después de mover
     }
 
