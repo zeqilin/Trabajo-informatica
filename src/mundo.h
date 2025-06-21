@@ -11,7 +11,7 @@ using std::vector;
 class mundo
 {
     vector<Pieza*> piezas;
-    //Pieza* piezaSeleccionada;
+    Pieza* piezaSeleccionada ;
     tablero table;
     //Caballo caballo;
     Alfil alfil;
@@ -28,5 +28,6 @@ public:
     void inicializa();
     void dibuja();
     void clickRaton(int fila, int columna);
+    Pieza* PiezaenPosicion(int fila, int columna);
 };
 

@@ -71,14 +71,38 @@ void mundo::dibuja() {
     }
 
 }
+//busca en el vector de pieza si hay pieza con la posicion entrante a la función( para la seleccion de pieza,creo que se podria usar para la captura tambien despues)
+//en un principio se ha planteado usar bool pero no dejaria actuar sobre la pieza despues para moverla
+Pieza* mundo::PiezaenPosicion(int fila, int columna) {
+    for (auto pieza : piezas) {
+        if (pieza->getPosicion().getFila() == fila &&
+            pieza->getPosicion().getColumna() == columna) {
+            return pieza;
+        }
+    }
+    return nullptr; // No hay pieza en esa casilla
+}
 
 
 void mundo::clickRaton(int fila, int columna) {
 
     Casillas destino = table.getCasilla(fila, columna);
-    caballoNegroarriba->setPosicion(fila, columna, destino.getX(), destino.getY());
-    std::cout << "raton en: (" << fila << ", " << columna << ")" << std::endl;
-    std::cout << "raton en: (" << destino.getX() << ", " << destino.getY() << ")" << std::endl;
-}
+    if (piezaSeleccionada == nullptr) {
+        // Primer clic: seleccionar
+        piezaSeleccionada = PiezaenPosicion(fila, columna);
+        if (piezaSeleccionada) {
+            std::cout << "Pieza seleccionada en (" << fila << ", " << columna << ")\n";
+        }
+        else {
+            std::cout << "No hay pieza en esa casilla\n";
+        }
+    }
+    else {
+        // Segundo clic: mover
+        piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
+        std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
+        piezaSeleccionada = nullptr;  // Deseleccionamos después de mover
+    }
 
+}
 
