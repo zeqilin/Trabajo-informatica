@@ -23,3 +23,13 @@ void Peon::dibujar() {
     glPopMatrix();
     glBindTexture(GL_TEXTURE_2D, 0);
 }
+bool Peon::movimientoValido(int filaDestino, int columnaDestino) {
+    //posición actual del peón
+    int filaActual = posicion.getFila();
+    int colActual = posicion.getColumna();
+
+    int dir = (color == Color::Blanco) ? -1 : 1;
+
+    return (columnaDestino == colActual + dir && filaDestino == filaActual);//movimiento hacia adelante
+    
+}

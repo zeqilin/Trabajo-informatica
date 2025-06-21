@@ -13,4 +13,5 @@ public:
         sprite.setSize(1, 1);
     }
     void dibujar() override;
+    bool movimientoValido(int filaDestino, int columnaDestino);
 };

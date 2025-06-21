@@ -21,4 +21,6 @@ public:
         posicion.setPosicionTablero(fila, columna);
         posicion.setCoordenadas(x, y);
     }
+    virtual bool movimientoValido(int filaDestino, int columnaDestino) = 0;
+    
 };

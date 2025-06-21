@@ -21,4 +21,6 @@ public:
     static void cargarSprites();
 
     void dibujar() override;
+
+    bool movimientoValido(int filaDestino, int columnaDestino);
 };

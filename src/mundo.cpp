@@ -106,11 +106,17 @@ void mundo::clickRaton(int fila, int columna) {
     }
     else {
         // Segundo clic: intentar mover
-        piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
-        std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
-
-        // Cambiamos el turno después de mover
-        TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
+        if (piezaSeleccionada->movimientoValido(fila, columna)) {
+          
+                piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
+                std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
+                // Cambiamos el turno después de mover
+                TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
+            
+        }
+        else {
+            std::cout << "Movimiento inválido para esta pieza.\n";
+        }
 
         piezaSeleccionada = nullptr;  // Deseleccionamos después de mover
     }
