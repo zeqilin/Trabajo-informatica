@@ -29,7 +29,22 @@ bool Peon::movimientoValido(int filaDestino, int columnaDestino) {
     int colActual = posicion.getColumna();
 
     int dir = (color == Color::Blanco) ? -1 : 1;
+    int colInicial = (color == Color::Blanco) ? 6 : 1;
 
-    return (columnaDestino == colActual + dir && filaDestino == filaActual);//movimiento hacia adelante
+    //Movimiento normal
+    if (columnaDestino == colActual + dir && filaDestino == filaActual) {
+        return true;
+    }
+
+    //Avance inicial
+    if (colActual == colInicial && columnaDestino == colActual + 2 * dir && filaDestino == filaActual) {
+        return true;
+    }
+
+    //Captura diagonal
+    if (columnaDestino == colActual + dir && abs(filaDestino - filaActual) == 1) {
+        return true;
+    }
+    return false;
     
 }
