@@ -22,6 +22,8 @@ class mundo
     Peon* peonesBlancos[8];
     Caballo* caballoNegroarriba;
     Caballo* caballoNegroabajo;
+    Caballo* caballoBlancoarriba;
+    Caballo* caballoBlancoabajo;
     Color TurnoActual;
     Torre torre;
 

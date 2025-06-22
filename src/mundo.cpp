@@ -7,10 +7,12 @@ mundo::mundo() {
 void mundo::inicializa() {
     Peon::cargarSprites();
     TurnoActual = Color::Blanco;
-    Casillas c1 = table.getCasilla(6, 0); // b8
-    Casillas c2 = table.getCasilla(1, 0); //g8
+    Casillas c1 = table.getCasilla(6, 0); 
+    Casillas c2 = table.getCasilla(1, 0); 
     Casillas c3 = table.getCasilla(3, 0);
     Casillas c4 = table.getCasilla(3, 7);
+    Casillas c5 = table.getCasilla(6, 7);
+    Casillas c6 = table.getCasilla(1, 7);
    // std::cout << "Caballo arriba pos: (" << c1.getX() << ", " << c1.getY() << ")\n";
     //std::cout << "Caballo abajo pos: (" << c2.getX() << ", " << c2.getY() << ")\n";
 
@@ -43,12 +45,21 @@ void mundo::inicializa() {
     caballoNegroarriba->setPosicion(6, 0, c1.getX(), c1.getY());
     piezas.push_back(caballoNegroarriba);
 
+
     caballoNegroabajo = new Caballo(1, 0, Color::Negro);
     caballoNegroabajo->setPosicion(1, 0, c2.getX(), c2.getY());
     piezas.push_back(caballoNegroabajo);
 
-    std::cout << "Caballo1 en: (" << caballoNegroarriba->getPosicion().getFila() << "," << caballoNegroarriba->getPosicion().getColumna() << ")\n";
-    std::cout << "Caballo2 en: (" << caballoNegroabajo->getPosicion().getFila() << "," << caballoNegroabajo->getPosicion().getColumna() << ")\n";
+    caballoBlancoarriba = new Caballo(6, 7, Color::Blanco);
+    caballoBlancoarriba->setPosicion(6, 7, c5.getX(), c5.getY());
+    piezas.push_back(caballoBlancoarriba);
+    
+    caballoBlancoarriba = new Caballo(1, 7, Color::Blanco);
+    caballoBlancoarriba->setPosicion(1, 7, c6.getX(), c6.getY());
+    piezas.push_back(caballoBlancoarriba);
+
+    //std::cout << "Caballo1 en: (" << caballoNegroarriba->getPosicion().getFila() << "," << caballoNegroarriba->getPosicion().getColumna() << ")\n";
+    //std::cout << "Caballo2 en: (" << caballoNegroabajo->getPosicion().getFila() << "," << caballoNegroabajo->getPosicion().getColumna() << ")\n";
 
 
 }
