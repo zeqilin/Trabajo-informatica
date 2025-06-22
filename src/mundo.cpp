@@ -114,6 +114,16 @@ void mundo::capturarPiezaEn(int fila, int columna) {
         }
     }
 }
+bool mundo::puedeCapturar(Pieza* atacante, int fila, int columna) {
+    Pieza* objetivo = PiezaenPosicion(fila, columna);
+
+    if (atacante != nullptr && objetivo != nullptr && atacante != objetivo && atacante->movimientoValido(fila, columna)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 void mundo::clickRaton(int fila, int columna) {
 
     Casillas destino = table.getCasilla(fila, columna);
@@ -136,7 +146,10 @@ void mundo::clickRaton(int fila, int columna) {
     else {
         // Segundo clic: intentar mover
         if (piezaSeleccionada->movimientoValido(fila, columna)) {
-            capturarPiezaEn(fila, columna);
+
+            if (puedeCapturar(piezaSeleccionada, fila, columna)) {
+                capturarPiezaEn(fila, columna);
+            }
                 piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
                 std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
                 // Cambiamos el turno después de mover
