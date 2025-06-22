@@ -31,5 +31,6 @@ public:
     void dibuja();
     void clickRaton(int fila, int columna);
     Pieza* PiezaenPosicion(int fila, int columna);
+    void capturarPiezaEn(int fila, int columna);
 };
 

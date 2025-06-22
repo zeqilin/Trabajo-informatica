@@ -69,6 +69,7 @@ void mundo::dibuja() {
         peonesBlancos[i]->dibujar();
     }*/
     for (auto pieza : piezas) {
+        if(pieza!=nullptr)
         pieza->dibujar();
     }
 
@@ -77,7 +78,7 @@ void mundo::dibuja() {
 //en un principio se ha planteado usar bool pero no dejaria actuar sobre la pieza despues para moverla
 Pieza* mundo::PiezaenPosicion(int fila, int columna) {
     for (auto pieza : piezas) {
-        if (pieza->getPosicion().getFila() == fila &&
+        if (pieza != nullptr&&pieza->getPosicion().getFila() == fila &&
             pieza->getPosicion().getColumna() == columna) {
             return pieza;
         }
@@ -85,7 +86,23 @@ Pieza* mundo::PiezaenPosicion(int fila, int columna) {
     return nullptr; // No hay pieza en esa casilla
 }
 
+void mundo::capturarPiezaEn(int fila, int columna) {
+    Pieza* objetivo = PiezaenPosicion(fila, columna);
 
+    // Si hay una pieza en esa posición y no es la misma que la que se está moviendo
+    if (objetivo && objetivo != piezaSeleccionada) {
+        std::cout << "Pieza capturada en (" << fila << ", " << columna << ")\n";
+
+        // Buscar y eliminar del vector
+        for (int i = 0; i < piezas.size(); ++i) {
+            if (piezas[i] == objetivo) {
+                delete objetivo;
+                piezas[i] = nullptr;
+
+            }
+        }
+    }
+}
 void mundo::clickRaton(int fila, int columna) {
 
     Casillas destino = table.getCasilla(fila, columna);
@@ -108,7 +125,7 @@ void mundo::clickRaton(int fila, int columna) {
     else {
         // Segundo clic: intentar mover
         if (piezaSeleccionada->movimientoValido(fila, columna)) {
-          
+            capturarPiezaEn(fila, columna);
                 piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
                 std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
                 // Cambiamos el turno después de mover
