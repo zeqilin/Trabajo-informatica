@@ -13,13 +13,15 @@ void mundo::inicializa() {
     Casillas c4 = table.getCasilla(3, 7);
     Casillas c5 = table.getCasilla(6, 7);
     Casillas c6 = table.getCasilla(1, 7);
+    Casillas c7 = table.getCasilla(0, 0);
+    Casillas c8 = table.getCasilla(7, 0);
    // std::cout << "Caballo arriba pos: (" << c1.getX() << ", " << c1.getY() << ")\n";
     //std::cout << "Caballo abajo pos: (" << c2.getX() << ", " << c2.getY() << ")\n";
 
     // Asignar posiciones
    
     alfil.setPosicion(0, 0, 0.0, 5.0);
-    torre.setPosicion( 0,0, 0.0, 0.0);
+    
     reyNegro = new Rey(3, 0, Color::Negro);
     reyNegro->setPosicion(3, 0, c3.getX(), c3.getY());
     piezas.push_back(reyNegro);
@@ -27,6 +29,16 @@ void mundo::inicializa() {
     reyBlanco = new Rey(3, 7, Color::Blanco);
     reyBlanco->setPosicion(3, 7, c4.getX(), c4.getY());
     piezas.push_back(reyBlanco);
+
+    //torreNegraabajo = new Torre(0, 0, Color::Negro);
+   // torreNegraabajo->setPosicion(0, 0, c7.getX(), c7.getY());
+    //piezas.push_back(torreNegraabajo);
+
+   // torreNegraarriba = new Torre(7, 0, Color::Negro);
+   // torreNegraarriba->setPosicion(0, 0, c8.getX(), c8.getY());
+    //piezas.push_back(torreNegraarriba);
+
+
 
     for (int i = 0; i < 8; i++) {
         Casillas c = table.getCasilla(i, 1);

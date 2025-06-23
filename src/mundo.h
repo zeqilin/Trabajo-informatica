@@ -8,6 +8,7 @@
 #include "Alfil.h"
 #include "Rey.h"
 #include "Torre.h"
+
 using std::vector;
 class mundo
 {
@@ -25,7 +26,8 @@ class mundo
     Caballo* caballoBlancoarriba;
     Caballo* caballoBlancoabajo;
     Color TurnoActual;
-    Torre torre;
+    Torre* torreNegraabajo;
+    Torre* torreNegraarriba;
 
 public:
     mundo();
