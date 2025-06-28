@@ -30,13 +30,13 @@ void mundo::inicializa() {
     reyBlanco->setPosicion(3, 7, c4.getX(), c4.getY());
     piezas.push_back(reyBlanco);
 
-    //torreNegraabajo = new Torre(0, 0, Color::Negro);
-   // torreNegraabajo->setPosicion(0, 0, c7.getX(), c7.getY());
-    //piezas.push_back(torreNegraabajo);
+    torreNegraabajo = new Torre(0, 0, Color::Negro);
+   torreNegraabajo->setPosicion(0, 0, c7.getX(), c7.getY());
+    piezas.push_back(torreNegraabajo);
 
-   // torreNegraarriba = new Torre(7, 0, Color::Negro);
-   // torreNegraarriba->setPosicion(0, 0, c8.getX(), c8.getY());
-    //piezas.push_back(torreNegraarriba);
+   torreNegraarriba = new Torre(7, 0, Color::Negro);
+    torreNegraarriba->setPosicion(0, 0, c8.getX(), c8.getY());
+    piezas.push_back(torreNegraarriba);
 
 
 
