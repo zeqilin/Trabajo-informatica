@@ -38,5 +38,7 @@ public:
     void capturarPiezaEn(int fila, int columna);
     bool puedeCapturar(Pieza* atacante, int fila, int columna);
     void aplicarGravedad();
+    Rey* getRey(Color color);
+    bool estaEnJaque(Color color);
 };
 

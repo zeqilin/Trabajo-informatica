@@ -156,6 +156,28 @@ void mundo::aplicarGravedad() {
         }
     }
 }
+Rey* mundo::getRey(Color color) {
+    if (color == Color::Blanco) return reyBlanco;
+    else return reyNegro;
+}
+bool mundo::estaEnJaque(Color color) {
+    Rey* rey = getRey(color);
+    int filaRey = rey->getPosicion().getFila();
+    int colRey = rey->getPosicion().getColumna();
+
+    Color adversario = (color == Color::Blanco) ? Color::Negro : Color::Blanco;
+
+    for (auto pieza : piezas) {
+        if (pieza != nullptr && pieza->getColor() == adversario) {
+            if (pieza->movimientoValido(filaRey, colRey)) {
+                if (puedeCapturar(pieza, filaRey, colRey)) {
+                    return true; //rey en jaque
+                }
+            }
+        }
+    }
+    return false; // No está en jaque
+}
 void mundo::clickRaton(int fila, int columna) {
 
     Casillas destino = table.getCasilla(fila, columna);
@@ -178,23 +200,61 @@ void mundo::clickRaton(int fila, int columna) {
     else {
         // Segundo clic: intentar mover
         if (piezaSeleccionada->movimientoValido(fila, columna)) {
+            //guardar estado original
+            int filaOriginal = piezaSeleccionada->getPosicion().getFila();
+            int colOriginal = piezaSeleccionada->getPosicion().getColumna();
+            float xOriginal = piezaSeleccionada->getPosicion().getX();
+            float yOriginal = piezaSeleccionada->getPosicion().getY();
 
-            if (puedeCapturar(piezaSeleccionada, fila, columna)) {
-                capturarPiezaEn(fila, columna);
+            Pieza* objetivo = PiezaenPosicion(fila, columna);
+            bool esCaptura = puedeCapturar(piezaSeleccionada, fila, columna);
+            bool objetivoEliminado = false;
+
+            // Captura temporal
+            if (esCaptura) {
+                //busca el puntero objetivo (la pieza que se intenta capturar) dentro del vector piezas
+                auto it = std::find(piezas.begin(), piezas.end(), objetivo);
+                if (it != piezas.end()) {//verifica que se haya encontrado la pieza en el vector
+                    *it = nullptr;  // quitarla del vector temporalmente
+                    objetivoEliminado = true;
+                }
             }
-                piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
+            // Mover temporalmente
+            piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
+
+            // Verificar si el movimiento deja en jaque al propio rey
+            if (estaEnJaque(TurnoActual)) {
+                std::cout << "Movimiento invalido: dejarias a tu rey en jaque.\n";
+                piezaSeleccionada->setPosicion(filaOriginal, colOriginal, xOriginal, yOriginal);
+
+                if (objetivoEliminado && objetivo) {
+                    auto it = std::find(piezas.begin(), piezas.end(), nullptr);
+                    if (it != piezas.end()) {
+                        *it = objetivo;  // restaurar
+                    }
+                }
+            }
+            else {
+                // Movimiento valido
+                if (esCaptura && objetivo) {
+                    capturarPiezaEn(fila, columna);
+                }
                 std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
                 aplicarGravedad();
                 // Cambiamos el turno después de mover
                 TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
-            
+
+                if (estaEnJaque(TurnoActual)) {
+                    std::cout << "JAQUE AL REY " << ((TurnoActual == Color::Blanco) ? "BLANCO" : "NEGRO") << "!\n";
+                }
+            }
         }
+            
         else {
-            std::cout << "Movimiento inválido para esta pieza.\n";
+            std::cout << "Movimiento invalido para esta pieza.\n";
         }
 
         piezaSeleccionada = nullptr;  // Deseleccionamos después de mover
     }
 
 }
-
