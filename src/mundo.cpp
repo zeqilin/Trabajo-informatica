@@ -37,15 +37,15 @@ void mundo::inicializa() {
     piezas.push_back(torreNegraabajo);
 
    torreNegraarriba = new Torre(7, 0, Color::Negro);
-    torreNegraarriba->setPosicion(0, 0, c8.getX(), c8.getY());
+    torreNegraarriba->setPosicion(7, 0, c8.getX(), c8.getY());
     piezas.push_back(torreNegraarriba);
 
     torreBlancaabajo = new Torre(0, 7, Color::Blanco);
-    torreBlancaabajo->setPosicion(0, 0, c9.getX(), c9.getY());
+    torreBlancaabajo->setPosicion(0, 7, c9.getX(), c9.getY());
     piezas.push_back(torreBlancaabajo);
 
     torreBlancaarriba = new Torre(7, 7, Color::Blanco);
-    torreBlancaarriba->setPosicion(0, 0, c10.getX(), c10.getY());
+    torreBlancaarriba->setPosicion(7, 7, c10.getX(), c10.getY());
     piezas.push_back(torreBlancaarriba);
 
     for (int i = 0; i < 8; i++) {
