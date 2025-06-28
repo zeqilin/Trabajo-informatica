@@ -28,6 +28,8 @@ class mundo
     Color TurnoActual;
     Torre* torreNegraabajo;
     Torre* torreNegraarriba;
+    Torre* torreBlancaabajo;
+    Torre* torreBlancaarriba;
 
 public:
     mundo();

@@ -15,6 +15,8 @@ void mundo::inicializa() {
     Casillas c6 = table.getCasilla(1, 7);
     Casillas c7 = table.getCasilla(0, 0);
     Casillas c8 = table.getCasilla(7, 0);
+    Casillas c9 = table.getCasilla(0, 7);
+    Casillas c10 = table.getCasilla(7, 7);
    // std::cout << "Caballo arriba pos: (" << c1.getX() << ", " << c1.getY() << ")\n";
     //std::cout << "Caballo abajo pos: (" << c2.getX() << ", " << c2.getY() << ")\n";
 
@@ -38,7 +40,13 @@ void mundo::inicializa() {
     torreNegraarriba->setPosicion(0, 0, c8.getX(), c8.getY());
     piezas.push_back(torreNegraarriba);
 
+    torreBlancaabajo = new Torre(0, 7, Color::Blanco);
+    torreBlancaabajo->setPosicion(0, 0, c9.getX(), c9.getY());
+    piezas.push_back(torreBlancaabajo);
 
+    torreBlancaarriba = new Torre(7, 7, Color::Blanco);
+    torreBlancaarriba->setPosicion(0, 0, c10.getX(), c10.getY());
+    piezas.push_back(torreBlancaarriba);
 
     for (int i = 0; i < 8; i++) {
         Casillas c = table.getCasilla(i, 1);
