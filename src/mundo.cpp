@@ -136,6 +136,16 @@ bool mundo::puedeCapturar(Pieza* atacante, int fila, int columna) {
         return false;
     }
 }
+bool mundo::estaAmenazado(int fila, int columna) {
+
+    for (auto pieza : piezas) {
+        if (pieza != nullptr && puedeCapturar(pieza, fila, columna)) {
+            return true;
+        }
+    }
+
+    return false;
+}
 void mundo::aplicarGravedad() {
     for (int col = 0; col < 8; col++) {
         std::vector<Pieza*> piezasEnColumna;
@@ -156,83 +166,8 @@ void mundo::aplicarGravedad() {
         }
     }
 }
-Rey* mundo::getRey(Color color) {
-    if (color == Color::Blanco) return reyBlanco;
-    else return reyNegro;
-}
-bool mundo::estaEnJaque(Color color) {
-    Rey* rey = getRey(color);
-    int filaRey = rey->getPosicion().getFila();
-    int colRey = rey->getPosicion().getColumna();
 
-    Color adversario = (color == Color::Blanco) ? Color::Negro : Color::Blanco;
 
-    for (auto pieza : piezas) {
-        if (pieza != nullptr && pieza->getColor() == adversario) {
-            if (pieza->movimientoValido(filaRey, colRey)) {
-                if (puedeCapturar(pieza, filaRey, colRey)) {
-                    return true; //rey en jaque
-                }
-            }
-        }
-    }
-    return false; // No está en jaque
-}
-bool mundo::esJaqueMate(Color color) {
-    if (!estaEnJaque(color)) {
-        return false;  // No está en jaque, no hay posibilidad de jaque mate
-    }
-    for (auto pieza : piezas) {
-        if (pieza && pieza->getColor() == color) {
-            int filaOriginal = piezaSeleccionada->getPosicion().getFila();
-            int colOriginal = piezaSeleccionada->getPosicion().getColumna();
-            float xOriginal = piezaSeleccionada->getPosicion().getX();
-            float yOriginal = piezaSeleccionada->getPosicion().getY();
-
-            for (int fila = 0; fila < 8; ++fila) {
-                for (int col = 0; col < 8; ++col) {
-                    if (pieza->movimientoValido(fila, col)) {
-
-                        Pieza* objetivo = PiezaenPosicion(fila, col);
-                        bool esCaptura = puedeCapturar(pieza, fila, col);
-                        bool objetivoEliminado = false;
-
-                        // captura temporal
-                        if (esCaptura) {
-                            auto it = std::find(piezas.begin(), piezas.end(), objetivo);
-                            if (it != piezas.end()) {
-                                *it = nullptr;
-                                objetivoEliminado = true;
-                            }
-                        }
-
-                        // Simular movimiento
-                        pieza->setPosicion(fila, col, 0, 0);
-
-                        bool reySigueEnJaque = estaEnJaque(color);
-
-                        // si el rey sigue en jaque revertimos movimiento
-                        pieza->setPosicion(filaOriginal, colOriginal, xOriginal, yOriginal);
-
-                        if (objetivoEliminado && objetivo) {
-                            auto it = std::find(piezas.begin(), piezas.end(), nullptr);
-                            if (it != piezas.end()) {
-                                *it = objetivo;
-                            }
-                        }
-
-                        //Si hay al menos un movimiento que saca del jaque, no hay jaque mate
-                        if (!reySigueEnJaque) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    return true; // Ninguna jugada saca al rey del jaque, hay jaque mate
-}
 void mundo::clickRaton(int fila, int columna) {
 
     Casillas destino = table.getCasilla(fila, columna);
@@ -255,65 +190,27 @@ void mundo::clickRaton(int fila, int columna) {
     else {
         // Segundo clic: intentar mover
         if (piezaSeleccionada->movimientoValido(fila, columna)) {
-            //guardar estado original
-            int filaOriginal = piezaSeleccionada->getPosicion().getFila();
-            int colOriginal = piezaSeleccionada->getPosicion().getColumna();
-            float xOriginal = piezaSeleccionada->getPosicion().getX();
-            float yOriginal = piezaSeleccionada->getPosicion().getY();
 
-            Pieza* objetivo = PiezaenPosicion(fila, columna);
-            bool esCaptura = puedeCapturar(piezaSeleccionada, fila, columna);
-            bool objetivoEliminado = false;
-
-            // Captura temporal
-            if (esCaptura) {
-                //busca el puntero objetivo (la pieza que se intenta capturar) dentro del vector piezas
-                auto it = std::find(piezas.begin(), piezas.end(), objetivo);
-                if (it != piezas.end()) {//verifica que se haya encontrado la pieza en el vector
-                    *it = nullptr;  // quitarla del vector temporalmente
-                    objetivoEliminado = true;
-                }
+            if (puedeCapturar(piezaSeleccionada, fila, columna)) {
+                capturarPiezaEn(fila, columna);
             }
-            // Mover temporalmente
             piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
+            std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
+            // Cambiamos el turno después de mover
+            aplicarGravedad();
+            TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
+            if (estaAmenazado(reyNegro->getPosicion().getFila(), reyNegro->getPosicion().getColumna()))
+                std::cout << "rey negro está en jaque.\n";
+            if (estaAmenazado(reyBlanco->getPosicion().getFila(), reyBlanco->getPosicion().getColumna()))
+                std::cout << "rey blanco está en jaque.\n";
 
-            // Verificar si el movimiento deja en jaque al propio rey
-            if (estaEnJaque(TurnoActual)) {
-                std::cout << "Movimiento invalido: dejarias a tu rey en jaque.\n";
-                piezaSeleccionada->setPosicion(filaOriginal, colOriginal, xOriginal, yOriginal);
-
-                if (objetivoEliminado && objetivo) {
-                    auto it = std::find(piezas.begin(), piezas.end(), nullptr);
-                    if (it != piezas.end()) {
-                        *it = objetivo;  // restaurar
-                    }
-                }
-            }
-            else {
-                // Movimiento valido
-                if (esCaptura && objetivo) {
-                    capturarPiezaEn(fila, columna);
-                }
-                std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
-                aplicarGravedad();
-                // Cambiamos el turno después de mover
-                TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
-
-                if (estaEnJaque(TurnoActual)) {
-                    std::cout << "JAQUE AL REY " << ((TurnoActual == Color::Blanco) ? "BLANCO" : "NEGRO") << "\n";
-
-                    if (esJaqueMate(TurnoActual)) {
-                        std::cout << "JAQUE MATE. Ha ganado el jugador " << ((TurnoActual == Color::Blanco) ? "NEGRO" : "BLANCO") << ".\n";
-                    }
-                }
-            }
         }
-            
         else {
-            std::cout << "Movimiento invalido para esta pieza.\n";
+            std::cout << "Movimiento inválido para esta pieza.\n";
         }
 
         piezaSeleccionada = nullptr;  // Deseleccionamos después de mover
     }
 
 }
+
