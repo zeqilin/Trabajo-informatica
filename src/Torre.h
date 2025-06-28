@@ -1,25 +1,22 @@
+
 #pragma once
-#include "Coordenadas.h"
-#include "Casillas.h"
+#include "Pieza.h"
+#include "freeglut.h"
 #include "ETSIDI.h"
 
-class Torre
+class Torre: public Pieza
 {
-	Casillas posicion{};
-	ETSIDI::SpriteSequence sprite{ "bin/imagenes/torre_negra.png", 1 };
+	
+	ETSIDI::SpriteSequence sprite; 
 public:
-	Torre(int fila = 0, int columna = 0)
-		: posicion(fila, columna) {
-		sprite.setCenter(0, 0);
-		sprite.setSize(1, 1);
-	}
-	Casillas getPosicion() { return posicion; }
-	void setPosicion(int fila, int columna, float x, float y) {
-		posicion.setPosicionTablero(fila, columna);
-		posicion.setCoordenadas(x, y);
-	}
+	Torre(int fila = 0, int columna = 0,Color col=Color::Negro) 
+		:Pieza(fila, columna, col), sprite((col == Color::Blanco) ? "bin/imagenes/torre_blanca.png" : "bin/imagenes/torre_negra.png",1)
+		{
+			sprite.setCenter(0, 0);
+		     sprite.setSize(1, 1);
+	    }
+	
 
-	void dibujar_torre();
+	void dibujar() override;
+	bool movimientoValido(int filaDestino, int columnaDestino);
 };
-
-
