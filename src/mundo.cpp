@@ -74,9 +74,9 @@ void mundo::inicializa() {
     caballoBlancoarriba->setPosicion(6, 7, c5.getX(), c5.getY());
     piezas.push_back(caballoBlancoarriba);
     
-    caballoBlancoarriba = new Caballo(1, 7, Color::Blanco);
-    caballoBlancoarriba->setPosicion(1, 7, c6.getX(), c6.getY());
-    piezas.push_back(caballoBlancoarriba);
+    caballoBlancoabajo = new Caballo(1, 7, Color::Blanco);
+    caballoBlancoabajo->setPosicion(1, 7, c6.getX(), c6.getY());
+    piezas.push_back(caballoBlancoabajo);
 
     //std::cout << "Caballo1 en: (" << caballoNegroarriba->getPosicion().getFila() << "," << caballoNegroarriba->getPosicion().getColumna() << ")\n";
     //std::cout << "Caballo2 en: (" << caballoNegroabajo->getPosicion().getFila() << "," << caballoNegroabajo->getPosicion().getColumna() << ")\n";
