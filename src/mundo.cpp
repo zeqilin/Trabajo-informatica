@@ -117,7 +117,7 @@ void mundo::capturarPiezaEn(int fila, int columna) {
         std::cout << "Pieza capturada en (" << fila << ", " << columna << ")\n";
 
         // Buscar y eliminar del vector
-        for (int i = 0; i < piezas.size(); ++i) {
+        for (int i = 0; i < piezas.size(); i++) {
             if (piezas[i] == objetivo) {
                 delete objetivo;
                 piezas[i] = nullptr;
@@ -134,6 +134,26 @@ bool mundo::puedeCapturar(Pieza* atacante, int fila, int columna) {
     }
     else {
         return false;
+    }
+}
+void mundo::aplicarGravedad() {
+    for (int col = 0; col < 8; col++) {
+        std::vector<Pieza*> piezasEnColumna;
+
+        // Meter piezas no nulas de la columna en el vector
+        for (int fila = 0; fila < 8; fila++) {
+            Pieza* p = PiezaenPosicion(fila, col);
+            if (p != nullptr) {
+                piezasEnColumna.push_back(p);
+            }
+        }
+
+        // Reubicar las piezas desde la fila 0 hacia arriba 
+        for (int i = 0; i < piezasEnColumna.size(); i++) {
+            int nuevaFila = i; // La fila más baja disponible
+            Casillas nuevaCasilla = table.getCasilla(nuevaFila, col);
+            piezasEnColumna[i]->setPosicion(nuevaFila, col, nuevaCasilla.getX(), nuevaCasilla.getY());
+        }
     }
 }
 void mundo::clickRaton(int fila, int columna) {
@@ -164,6 +184,7 @@ void mundo::clickRaton(int fila, int columna) {
             }
                 piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
                 std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
+                aplicarGravedad();
                 // Cambiamos el turno después de mover
                 TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
             

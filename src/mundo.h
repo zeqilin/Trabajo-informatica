@@ -37,5 +37,6 @@ public:
     Pieza* PiezaenPosicion(int fila, int columna);
     void capturarPiezaEn(int fila, int columna);
     bool puedeCapturar(Pieza* atacante, int fila, int columna);
+    void aplicarGravedad();
 };
 
