@@ -40,5 +40,6 @@ public:
     void aplicarGravedad();
     Rey* getRey(Color color);
     bool estaEnJaque(Color color);
+    bool esJaqueMate(Color color);
 };
 

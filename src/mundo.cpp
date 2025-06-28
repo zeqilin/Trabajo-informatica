@@ -178,6 +178,61 @@ bool mundo::estaEnJaque(Color color) {
     }
     return false; // No está en jaque
 }
+bool mundo::esJaqueMate(Color color) {
+    if (!estaEnJaque(color)) {
+        return false;  // No está en jaque, no hay posibilidad de jaque mate
+    }
+    for (auto pieza : piezas) {
+        if (pieza && pieza->getColor() == color) {
+            int filaOriginal = piezaSeleccionada->getPosicion().getFila();
+            int colOriginal = piezaSeleccionada->getPosicion().getColumna();
+            float xOriginal = piezaSeleccionada->getPosicion().getX();
+            float yOriginal = piezaSeleccionada->getPosicion().getY();
+
+            for (int fila = 0; fila < 8; ++fila) {
+                for (int col = 0; col < 8; ++col) {
+                    if (pieza->movimientoValido(fila, col)) {
+
+                        Pieza* objetivo = PiezaenPosicion(fila, col);
+                        bool esCaptura = puedeCapturar(pieza, fila, col);
+                        bool objetivoEliminado = false;
+
+                        // captura temporal
+                        if (esCaptura) {
+                            auto it = std::find(piezas.begin(), piezas.end(), objetivo);
+                            if (it != piezas.end()) {
+                                *it = nullptr;
+                                objetivoEliminado = true;
+                            }
+                        }
+
+                        // Simular movimiento
+                        pieza->setPosicion(fila, col, 0, 0);
+
+                        bool reySigueEnJaque = estaEnJaque(color);
+
+                        // si el rey sigue en jaque revertimos movimiento
+                        pieza->setPosicion(filaOriginal, colOriginal, xOriginal, yOriginal);
+
+                        if (objetivoEliminado && objetivo) {
+                            auto it = std::find(piezas.begin(), piezas.end(), nullptr);
+                            if (it != piezas.end()) {
+                                *it = objetivo;
+                            }
+                        }
+
+                        //Si hay al menos un movimiento que saca del jaque, no hay jaque mate
+                        if (!reySigueEnJaque) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return true; // Ninguna jugada saca al rey del jaque, hay jaque mate
+}
 void mundo::clickRaton(int fila, int columna) {
 
     Casillas destino = table.getCasilla(fila, columna);
@@ -245,7 +300,11 @@ void mundo::clickRaton(int fila, int columna) {
                 TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
 
                 if (estaEnJaque(TurnoActual)) {
-                    std::cout << "JAQUE AL REY " << ((TurnoActual == Color::Blanco) ? "BLANCO" : "NEGRO") << "!\n";
+                    std::cout << "JAQUE AL REY " << ((TurnoActual == Color::Blanco) ? "BLANCO" : "NEGRO") << "\n";
+
+                    if (esJaqueMate(TurnoActual)) {
+                        std::cout << "JAQUE MATE. Ha ganado el jugador " << ((TurnoActual == Color::Blanco) ? "NEGRO" : "BLANCO") << ".\n";
+                    }
                 }
             }
         }
