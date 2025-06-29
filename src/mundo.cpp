@@ -85,6 +85,22 @@ void mundo::inicializa() {
 }
 
 void mundo::dibuja() {
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/fondo.png").id);
+
+    glDisable(GL_LIGHTING);
+    glColor3f(1, 1, 1);
+
+    glBegin(GL_POLYGON);
+    glTexCoord2d(0, 1); glVertex3d(-5, -3, -0.1);   // Fondo más atrás en Z = -1
+    glTexCoord2d(1, 1); glVertex3d(10, -3, -0.1);
+    glTexCoord2d(1, 0); glVertex3d(10, 9, -0.1);
+    glTexCoord2d(0, 0); glVertex3d(-5, 9, -0.1);
+    glEnd();
+
+    glEnable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
+    
     table.dibujar_tablero();
     
    //alfil.dibujar_alfil();

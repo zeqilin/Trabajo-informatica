@@ -59,7 +59,7 @@ void OnDraw(void)
 	gluLookAt(4, 4, 12,  // posicion del ojo
 		4, 4, 0.0,      // hacia que punto mira  (0,0,0) 
 		0.0, 1.0, 0.0);
-
+	
 	Mundo.dibuja();
 	
 	//no borrar esta linea ni poner nada despues
