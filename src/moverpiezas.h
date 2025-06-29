@@ -5,10 +5,10 @@
 #include "tablero.h"
 #include "Torre.h"
 
-enum TipoPieza { NINGUNA, CABALLO, PEON_NEGRO, PEON_BLANCO,ALFIL, TORRE };
+//enum TipoPieza { NINGUNA, CABALLO, PEON_NEGRO, PEON_BLANCO,ALFIL, TORRE };
 
 class moverpiezas {
-    TipoPieza piezaSeleccionada = NINGUNA;
+    //TipoPieza piezaSeleccionada = NINGUNA;
     int peonSeleccionado = -1;
 
     Caballo* caballo;

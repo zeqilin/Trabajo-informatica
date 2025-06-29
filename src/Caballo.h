@@ -14,7 +14,7 @@ public:
         sprite.setCenter(0, 0);
         sprite.setSize(1, 1);
     }
-
+    TipoPieza getTipo() const override { return TipoPieza::Caballo; }
     /*void inicializarSprite(Color col) {
         if (col == Color::Blanco)
             sprite = ETSIDI::SpriteSequence("bin/imagenes/caballo_blanco.png", 1);

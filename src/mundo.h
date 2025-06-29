@@ -42,5 +42,6 @@ public:
     void aplicarGravedad();
     bool estaAmenazado(int fila, int columna);
     bool puedeReyEscapar(Rey* rey);
+    bool viaLibreTorre(int filaInicio, int colInicio, int filaDestino, int colDestino);
 };
 

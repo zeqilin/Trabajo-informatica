@@ -17,6 +17,7 @@ public:
         else
             sprite = spriteNegro;
     }
+    TipoPieza getTipo() const override { return TipoPieza::Peon; }
 
     static void cargarSprites();
 

@@ -105,6 +105,52 @@ void mundo::dibuja() {
     }
 
 }
+bool mundo::viaLibreTorre(int filaInicio, int colInicio, int filaDestino, int colDestino) {
+    // La torre solo puede moverse en línea recta: horizontal o vertical
+    bool movimientoHorizontal = (filaInicio == filaDestino);
+    bool movimientoVertical = (colInicio == colDestino);
+
+    if (!movimientoHorizontal && !movimientoVertical) {
+        return false; // Movimiento inválido para torre
+    }
+
+    if (movimientoHorizontal) {// comprobar la fila menos el inicial y el final
+        int columnaMin, columnaMax;
+        if (colInicio < colDestino) {
+            columnaMin = colInicio + 1;
+            columnaMax = colDestino - 1;
+        }
+        else {
+            columnaMin = colDestino + 1;
+            columnaMax = colInicio - 1;
+        }
+
+        for (int c = columnaMin; c <= columnaMax; c++) {
+            if (PiezaenPosicion(filaInicio, c) != nullptr) {
+                return false; // Camino bloqueado
+            }
+        }
+    }
+    else if (movimientoVertical) {
+        int filaMin, filaMax;
+        if (filaInicio < filaDestino) {
+            filaMin = filaInicio + 1;
+            filaMax = filaDestino - 1;
+        }
+        else {
+            filaMin = filaDestino + 1;
+            filaMax = filaInicio - 1;
+        }
+
+        for (int f = filaMin; f <= filaMax; f++) {
+            if (PiezaenPosicion(f, colInicio) != nullptr) {
+                return false; // Camino bloqueado
+            }
+        }
+    }
+
+    return true; // Camino libre
+}
 //busca en el vector de pieza si hay pieza con la posicion entrante a la función( para la seleccion de pieza,creo que se podria usar para la captura tambien despues)
 //en un principio se ha planteado usar bool pero no dejaria actuar sobre la pieza despues para moverla
 Pieza* mundo::PiezaenPosicion(int fila, int columna) {
@@ -148,7 +194,18 @@ bool mundo::estaAmenazado(int fila, int columna) {
 
     for (auto pieza : piezas) {
         if (pieza != nullptr && puedeCapturar(pieza, fila, columna)) {
-            return true;
+            TipoPieza tipo = pieza->getTipo();
+            int f = pieza->getPosicion().getFila();
+            int c = pieza->getPosicion().getColumna();
+
+            bool viaLibre = true;  // asumimos que sí hay vía libre
+
+            if (tipo == TipoPieza::Torre) {
+                viaLibre = viaLibreTorre(f, c, fila, columna);
+            }
+            if (viaLibre) {
+                return true;  // amenaza válida con vía libre confirmada
+            }
         }
     }
 
@@ -227,7 +284,17 @@ void mundo::clickRaton(int fila, int columna) {
     }
     else {
         // Segundo clic: intentar mover
+
         if (piezaSeleccionada->movimientoValido(fila, columna)) {
+            if (piezaSeleccionada->getTipo() == TipoPieza::Torre) {
+                int filatorre = piezaSeleccionada->getPosicion().getFila();
+                int coltorre = piezaSeleccionada->getPosicion().getColumna();
+                if (!viaLibreTorre(filatorre, coltorre, fila, columna)) {
+                    std::cout << "Movimiento inválido: la torre no tiene vía libre.\n";
+                    piezaSeleccionada = nullptr;
+                    return;
+                }
+            }
             Rey* reyActual = (TurnoActual == Color::Blanco) ? reyBlanco : reyNegro;
             bool reyEnJaqueAntes = estaAmenazado(reyActual->getPosicion().getFila(), reyActual->getPosicion().getColumna());
 
@@ -283,9 +350,9 @@ void mundo::clickRaton(int fila, int columna) {
             aplicarGravedad();
 
             if (estaAmenazado(reyNegro->getPosicion().getFila(), reyNegro->getPosicion().getColumna()))
-                std::cout << "rey negro está en jaque.\n";
+                std::cout << "\nrey negro está en jaque.\n";
             if (estaAmenazado(reyBlanco->getPosicion().getFila(), reyBlanco->getPosicion().getColumna()))
-                std::cout << "rey blanco está en jaque.\n";
+                std::cout << "\nrey blanco está en jaque.\n";
 
             if (!puedeReyEscapar(reyBlanco))
                 std::cout << "¡Jaque mate al rey blanco!\n";

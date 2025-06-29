@@ -15,7 +15,7 @@ public:
 			sprite.setCenter(0, 0);
 		     sprite.setSize(1, 1);
 	    }
-	
+	TipoPieza getTipo() const override { return TipoPieza::Torre; }
 
 	void dibujar() override;
 	bool movimientoValido(int filaDestino, int columnaDestino);
