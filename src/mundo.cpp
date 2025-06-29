@@ -207,10 +207,10 @@ void mundo::aplicarGravedad() {
 
 
 void mundo::clickRaton(int fila, int columna) {
-
     Casillas destino = table.getCasilla(fila, columna);
+
     if (piezaSeleccionada == nullptr) {
-        // Primer clic: seleccionar
+        // Primer clic: seleccionar pieza
         piezaSeleccionada = PiezaenPosicion(fila, columna);
         if (piezaSeleccionada) {
             if (piezaSeleccionada->getColor() == TurnoActual) {
@@ -228,33 +228,79 @@ void mundo::clickRaton(int fila, int columna) {
     else {
         // Segundo clic: intentar mover
         if (piezaSeleccionada->movimientoValido(fila, columna)) {
+            Rey* reyActual = (TurnoActual == Color::Blanco) ? reyBlanco : reyNegro;
+            bool reyEnJaqueAntes = estaAmenazado(reyActual->getPosicion().getFila(), reyActual->getPosicion().getColumna());
 
-            if (puedeCapturar(piezaSeleccionada, fila, columna)) {
-                capturarPiezaEn(fila, columna);
-            }
+            // Guardar estado actual para poder revertir
+            int filaAnt = piezaSeleccionada->getPosicion().getFila();
+            int colAnt = piezaSeleccionada->getPosicion().getColumna();
+            float xAnt = table.getCasilla(filaAnt, colAnt).getX();
+            float yAnt = table.getCasilla(filaAnt, colAnt).getY();
+
+            Pieza* objetivo = PiezaenPosicion(fila, columna);
+
+            // Mover la pieza provisionalmente (sin borrar objetivo aún)
             piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
+
+            // Si hay objetivo, quitarlo provisionalmente para la comprobación
+            if (objetivo && objetivo != piezaSeleccionada) {
+                for (auto& p : piezas) {
+                    if (p == objetivo) {
+                        p = nullptr;
+                    }
+                }
+            }
+
+            bool reyEnJaqueDespues = estaAmenazado(reyActual->getPosicion().getFila(), reyActual->getPosicion().getColumna());
+
+            if (reyEnJaqueAntes && reyEnJaqueDespues) {
+                // Si estaba en jaque y sigue en jaque, movimiento inválido
+                std::cout << "Movimiento inválido: el rey sigue en jaque.\n";
+                // Revertir movimiento
+                piezaSeleccionada->setPosicion(filaAnt, colAnt, xAnt, yAnt);
+
+                // Restaurar pieza capturada si fue eliminada provisionalmente
+                if (objetivo && objetivo != piezaSeleccionada) {
+                    for (auto& p : piezas) {
+                        if (p == nullptr) {
+                            p = objetivo;
+                            objetivo = nullptr;
+                        }
+                    }
+                }
+
+                piezaSeleccionada = nullptr;
+                return; // Salir sin cambiar turno
+            }
+
+            // Si llegamos aquí, movimiento válido, eliminamos objetivo si hay
+            if (objetivo && objetivo != piezaSeleccionada) {
+                delete objetivo;
+            }
+
             std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
-            // Cambiamos el turno después de mover
+
             aplicarGravedad();
+
             if (estaAmenazado(reyNegro->getPosicion().getFila(), reyNegro->getPosicion().getColumna()))
                 std::cout << "rey negro está en jaque.\n";
             if (estaAmenazado(reyBlanco->getPosicion().getFila(), reyBlanco->getPosicion().getColumna()))
                 std::cout << "rey blanco está en jaque.\n";
-            if (!puedeReyEscapar(reyBlanco)) {
+
+            if (!puedeReyEscapar(reyBlanco))
                 std::cout << "¡Jaque mate al rey blanco!\n";
-            }
-            if (!puedeReyEscapar(reyNegro)) {
-                std::cout << "¡Jaque mate al rey Negro!\n";
-            }
+            if (!puedeReyEscapar(reyNegro))
+                std::cout << "¡Jaque mate al rey negro!\n";
+
+            // Cambiar turno
             TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
-            
+            piezaSeleccionada = nullptr;
         }
         else {
             std::cout << "Movimiento inválido para esta pieza.\n";
+            piezaSeleccionada = nullptr;
         }
-
-        piezaSeleccionada = nullptr;  // Deseleccionamos después de mover
     }
-
 }
+
 
