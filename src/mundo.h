@@ -41,5 +41,6 @@ public:
     bool puedeCapturar(Pieza* atacante, int fila, int columna);
     void aplicarGravedad();
     bool estaAmenazado(int fila, int columna);
+    bool puedeReyEscapar(Rey* rey);
 };
 

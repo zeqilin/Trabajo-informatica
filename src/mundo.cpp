@@ -154,6 +154,36 @@ bool mundo::estaAmenazado(int fila, int columna) {
 
     return false;
 }
+bool mundo::puedeReyEscapar(Rey* rey) {
+    int filaActual = rey->getPosicion().getFila();
+    int colActual = rey->getPosicion().getColumna();
+
+    for (int fila = 0; fila < 8; fila++) {
+        for (int col = 0; col < 8; col++) {
+            if (rey->movimientoValido(fila, col)) {
+
+                // Simulamos el movimiento
+                rey->setPosicion(fila, col, table.getCasilla(fila, col).getX(), table.getCasilla(fila, col).getY());
+
+                bool enJaque = estaAmenazado(fila, col);
+
+                // Restauramos la posición original del rey
+                rey->setPosicion(filaActual, colActual, table.getCasilla(filaActual, colActual).getX(), table.getCasilla(filaActual, colActual).getY());
+
+                if (!enJaque) {
+                    std::cout << "El rey puede escapar a (" << fila << ", " << col << ")\n";
+                    return true;
+                }
+                else {
+                    std::cout << "Casilla (" << fila << ", " << col << ") está amenazada.\n";
+                }
+            }
+        }
+    }
+
+    std::cout << "El rey NO puede escapar.\n";
+    return false;
+}
 void mundo::aplicarGravedad() {
     for (int col = 0; col < 8; col++) {
         std::vector<Pieza*> piezasEnColumna;
@@ -206,12 +236,18 @@ void mundo::clickRaton(int fila, int columna) {
             std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
             // Cambiamos el turno después de mover
             aplicarGravedad();
-            TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
             if (estaAmenazado(reyNegro->getPosicion().getFila(), reyNegro->getPosicion().getColumna()))
                 std::cout << "rey negro está en jaque.\n";
             if (estaAmenazado(reyBlanco->getPosicion().getFila(), reyBlanco->getPosicion().getColumna()))
                 std::cout << "rey blanco está en jaque.\n";
-
+            if (!puedeReyEscapar(reyBlanco)) {
+                std::cout << "¡Jaque mate al rey blanco!\n";
+            }
+            if (!puedeReyEscapar(reyNegro)) {
+                std::cout << "¡Jaque mate al rey Negro!\n";
+            }
+            TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
+            
         }
         else {
             std::cout << "Movimiento inválido para esta pieza.\n";
