@@ -1,6 +1,6 @@
 #include "Alfil.h"
 #include"freeglut.h"
-#include "moverpiezas.h"
+
 
 void Alfil::dibujar_alfil() {
 	glPushMatrix();
