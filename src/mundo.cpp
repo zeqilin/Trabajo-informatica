@@ -365,15 +365,16 @@ void mundo::clickRaton(int fila, int columna) {
 
             aplicarGravedad();
 
-            if (estaAmenazado(reyNegro->getPosicion().getFila(), reyNegro->getPosicion().getColumna()))
-                std::cout << "\nrey negro está en jaque.\n";
             if (estaAmenazado(reyBlanco->getPosicion().getFila(), reyBlanco->getPosicion().getColumna()))
-                std::cout << "\nrey blanco está en jaque.\n";
+                std::cout << "\nrey blanco esta en jaque.\n\n";
+            if (estaAmenazado(reyNegro->getPosicion().getFila(), reyNegro->getPosicion().getColumna()))
+                std::cout << "\nrey negro esta en jaque.\n\n";
+            
 
             if (!puedeReyEscapar(reyBlanco))
-                std::cout << "¡Jaque mate al rey blanco!\n";
+                std::cout << "\n¡Jaque mate al rey blanco!\n\n";
             if (!puedeReyEscapar(reyNegro))
-                std::cout << "¡Jaque mate al rey negro!\n";
+                std::cout << "\n¡Jaque mate al rey negro!\n\n";
 
             // Cambiar turno
             TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
