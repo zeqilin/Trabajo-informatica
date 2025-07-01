@@ -193,6 +193,48 @@ bool mundo::viaLibreTorre(int filaInicio, int colInicio, int filaDestino, int co
 
     return true; // Camino libre
 }
+bool mundo::viaLibreAlfil(int filaInicio, int colInicio, int filaDestino, int colDestino) {
+    // Verifica si es un movimiento en diagonal
+    if (abs(filaDestino - filaInicio) != abs(colDestino - colInicio)) {
+        return false;
+    }
+
+    int fila = filaInicio;
+    int col = colInicio;
+
+    // Determina la dirección del movimiento
+    int pasoFila;
+    int pasoCol;
+
+    if (filaDestino > filaInicio) {
+        pasoFila = 1;
+    }
+    else {
+        pasoFila = -1;
+    }
+
+    if (colDestino > colInicio) {
+        pasoCol = 1;
+    }
+    else {
+        pasoCol = -1;
+    }
+
+    // Avanza desde la siguiente casilla hasta justo antes del destino
+    fila = fila + pasoFila;
+    col = col + pasoCol;
+
+    while (fila != filaDestino && col != colDestino) {
+        if (PiezaenPosicion(fila, col) != nullptr) {
+            return false;
+        }
+
+        fila = fila + pasoFila;
+        col = col + pasoCol;
+    }
+
+    return true;
+}
 //busca en el vector de pieza si hay pieza con la posicion entrante a la función( para la seleccion de pieza,creo que se podria usar para la captura tambien despues)
 //en un principio se ha planteado usar bool pero no dejaria actuar sobre la pieza despues para moverla
 Pieza* mundo::PiezaenPosicion(int fila, int columna) {
@@ -233,7 +275,6 @@ bool mundo::puedeCapturar(Pieza* atacante, int fila, int columna) {
     }
 }
 bool mundo::estaAmenazado(int fila, int columna) {
-
     for (auto pieza : piezas) {
         if (pieza != nullptr && puedeCapturar(pieza, fila, columna)) {
             TipoPieza tipo = pieza->getTipo();
@@ -245,6 +286,10 @@ bool mundo::estaAmenazado(int fila, int columna) {
             if (tipo == TipoPieza::Torre) {
                 viaLibre = viaLibreTorre(f, c, fila, columna);
             }
+            if (tipo == TipoPieza::Alfil) {
+                viaLibre = viaLibreAlfil(f, c, fila, columna);
+            }
+
             if (viaLibre) {
                 return true;  // amenaza válida con vía libre confirmada
             }
@@ -326,85 +371,110 @@ void mundo::clickRaton(int fila, int columna) {
     }
     else {
         // Segundo clic: intentar mover
+        bool movimientoPermitido = false;
 
         if (piezaSeleccionada->movimientoValido(fila, columna)) {
+            int filaOrigen = piezaSeleccionada->getPosicion().getFila();
+            int colOrigen = piezaSeleccionada->getPosicion().getColumna();
+
+            bool libre = true;
+
             if (piezaSeleccionada->getTipo() == TipoPieza::Torre) {
-                int filatorre = piezaSeleccionada->getPosicion().getFila();
-                int coltorre = piezaSeleccionada->getPosicion().getColumna();
-                if (!viaLibreTorre(filatorre, coltorre, fila, columna)) {
+                if (!viaLibreTorre(filaOrigen, colOrigen, fila, columna)) {
                     std::cout << "Movimiento inválido: la torre no tiene vía libre.\n";
-                    piezaSeleccionada = nullptr;
-                    return;
-                }
-            }
-            Rey* reyActual = (TurnoActual == Color::Blanco) ? reyBlanco : reyNegro;
-            bool reyEnJaqueAntes = estaAmenazado(reyActual->getPosicion().getFila(), reyActual->getPosicion().getColumna());
-
-            // Guardar estado actual para poder revertir
-            int filaAnt = piezaSeleccionada->getPosicion().getFila();
-            int colAnt = piezaSeleccionada->getPosicion().getColumna();
-            float xAnt = table.getCasilla(filaAnt, colAnt).getX();
-            float yAnt = table.getCasilla(filaAnt, colAnt).getY();
-
-            Pieza* objetivo = PiezaenPosicion(fila, columna);
-
-            // Mover la pieza provisionalmente (sin borrar objetivo aún)
-            piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
-
-            // Si hay objetivo, quitarlo provisionalmente para la comprobación
-            if (objetivo && objetivo != piezaSeleccionada) {
-                for (auto& p : piezas) {
-                    if (p == objetivo) {
-                        p = nullptr;
-                    }
+                    libre = false;
                 }
             }
 
-            bool reyEnJaqueDespues = estaAmenazado(reyActual->getPosicion().getFila(), reyActual->getPosicion().getColumna());
+            if (piezaSeleccionada->getTipo() == TipoPieza::Alfil) {
+                if (!viaLibreAlfil(filaOrigen, colOrigen, fila, columna)) {
+                    std::cout << "Movimiento inválido: el alfil no tiene vía libre.\n";
+                    libre = false;
+                }
+            }
 
-            if (reyEnJaqueAntes && reyEnJaqueDespues) {
-                // Si estaba en jaque y sigue en jaque, movimiento inválido
-                std::cout << "Movimiento inválido: el rey sigue en jaque.\n";
-                // Revertir movimiento
-                piezaSeleccionada->setPosicion(filaAnt, colAnt, xAnt, yAnt);
+            if (libre) {
+                Rey* reyActual;
+                if (TurnoActual == Color::Blanco) {
+                    reyActual = reyBlanco;
+                }
+                else {
+                    reyActual = reyNegro;
+                }
 
-                // Restaurar pieza capturada si fue eliminada provisionalmente
+                bool reyEnJaqueAntes = estaAmenazado(reyActual->getPosicion().getFila(), reyActual->getPosicion().getColumna());
+
+                int filaAnt = filaOrigen;
+                int colAnt = colOrigen;
+                float xAnt = table.getCasilla(filaAnt, colAnt).getX();
+                float yAnt = table.getCasilla(filaAnt, colAnt).getY();
+
+                Pieza* objetivo = PiezaenPosicion(fila, columna);
+
+                piezaSeleccionada->setPosicion(fila, columna, destino.getX(), destino.getY());
+
                 if (objetivo && objetivo != piezaSeleccionada) {
-                    for (auto& p : piezas) {
-                        if (p == nullptr) {
-                            p = objetivo;
-                            objetivo = nullptr;
+                    for (int i = 0; i < piezas.size(); i++) {
+                        if (piezas[i] == objetivo) {
+                            piezas[i] = nullptr;
                         }
                     }
                 }
 
+                bool reyEnJaqueDespues = estaAmenazado(reyActual->getPosicion().getFila(), reyActual->getPosicion().getColumna());
+
+                if (reyEnJaqueAntes && reyEnJaqueDespues) {
+                    std::cout << "Movimiento inválido: el rey sigue en jaque.\n";
+
+                    piezaSeleccionada->setPosicion(filaAnt, colAnt, xAnt, yAnt);
+
+                    if (objetivo && objetivo != piezaSeleccionada) {
+                        for (int i = 0; i < piezas.size(); i++) {
+                            if (piezas[i] == nullptr) {
+                                piezas[i] = objetivo;
+                                objetivo = nullptr;
+                            }
+                        }
+                    }
+                    piezaSeleccionada = nullptr;
+                }
+                else {
+                    // Movimiento válido
+                    if (objetivo && objetivo != piezaSeleccionada) {
+                        delete objetivo;
+                    }
+
+                    std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
+
+                    aplicarGravedad();
+
+                    if (estaAmenazado(reyBlanco->getPosicion().getFila(), reyBlanco->getPosicion().getColumna())) {
+                        std::cout << "\nrey blanco esta en jaque.\n\n";
+                    }
+                    if (estaAmenazado(reyNegro->getPosicion().getFila(), reyNegro->getPosicion().getColumna())) {
+                        std::cout << "\nrey negro esta en jaque.\n\n";
+                    }
+
+                    if (!puedeReyEscapar(reyBlanco)) {
+                        std::cout << "\n¡Jaque mate al rey blanco!\n\n";
+                    }
+                    if (!puedeReyEscapar(reyNegro)) {
+                        std::cout << "\n¡Jaque mate al rey negro!\n\n";
+                    }
+
+                    if (TurnoActual == Color::Blanco) {
+                        TurnoActual = Color::Negro;
+                    }
+                    else {
+                        TurnoActual = Color::Blanco;
+                    }
+
+                    piezaSeleccionada = nullptr;
+                }
+            }
+            else {
                 piezaSeleccionada = nullptr;
-                return; // Salir sin cambiar turno
             }
-
-            // Si llegamos aquí, movimiento válido, eliminamos objetivo si hay
-            if (objetivo && objetivo != piezaSeleccionada) {
-                delete objetivo;
-            }
-
-            std::cout << "Pieza movida a (" << fila << ", " << columna << ")\n";
-
-            aplicarGravedad();
-
-            if (estaAmenazado(reyBlanco->getPosicion().getFila(), reyBlanco->getPosicion().getColumna()))
-                std::cout << "\nrey blanco esta en jaque.\n\n";
-            if (estaAmenazado(reyNegro->getPosicion().getFila(), reyNegro->getPosicion().getColumna()))
-                std::cout << "\nrey negro esta en jaque.\n\n";
-            
-
-            if (!puedeReyEscapar(reyBlanco))
-                std::cout << "\n¡Jaque mate al rey blanco!\n\n";
-            if (!puedeReyEscapar(reyNegro))
-                std::cout << "\n¡Jaque mate al rey negro!\n\n";
-
-            // Cambiar turno
-            TurnoActual = (TurnoActual == Color::Blanco) ? Color::Negro : Color::Blanco;
-            piezaSeleccionada = nullptr;
         }
         else {
             std::cout << "Movimiento inválido para esta pieza.\n";
@@ -412,5 +482,4 @@ void mundo::clickRaton(int fila, int columna) {
         }
     }
 }
-
 
