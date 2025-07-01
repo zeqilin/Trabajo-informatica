@@ -1,22 +1,22 @@
+
 #pragma once
-#include"Casillas.h"
-#include"Coordenadas.h"
-#include "ETSIDI.h" 
-class Alfil
+#include "Pieza.h"
+#include "freeglut.h"
+#include "ETSIDI.h"
+
+class Alfil : public Pieza
 {
-		Casillas posicion{};
-		ETSIDI::SpriteSequence sprite{ "bin/imagenes/AlfilN.png", 1 };
-	public:
-	Alfil(int fila = 0, int columna = 0)
-		: posicion(fila, columna) {
+
+	ETSIDI::SpriteSequence sprite;
+public:
+	Alfil(int fila = 0, int columna = 0, Color col = Color::Negro)
+		:Pieza(fila, columna, col), sprite((col == Color::Blanco) ? "bin/imagenes/alfil_blanco.png" : "bin/imagenes/alfil_negro.png", 1)
+	{
 		sprite.setCenter(0, 0);
 		sprite.setSize(1, 1);
 	}
-	Casillas getPosicion() { return posicion; }
-	void setPosicion(int fila, int columna, float x, float y) {
-		posicion.setPosicionTablero(fila, columna);
-		posicion.setCoordenadas(x, y);
-	}
+	//TipoPieza getTipo() const override { return TipoPieza::Alfil; }
 
-	void dibujar_alfil();
+	void dibujar() override;
+	bool movimientoValido(int filaDestino, int columnaDestino);
 };

@@ -17,12 +17,16 @@ void mundo::inicializa() {
     Casillas c8 = table.getCasilla(7, 0);
     Casillas c9 = table.getCasilla(0, 7);
     Casillas c10 = table.getCasilla(7, 7);
+    Casillas c11 = table.getCasilla(2, 0);
+    Casillas c12 = table.getCasilla(5, 0);
+    Casillas c13 = table.getCasilla(2, 7);
+    Casillas c14 = table.getCasilla(5, 7);
    // std::cout << "Caballo arriba pos: (" << c1.getX() << ", " << c1.getY() << ")\n";
     //std::cout << "Caballo abajo pos: (" << c2.getX() << ", " << c2.getY() << ")\n";
 
     // Asignar posiciones
    
-    alfil.setPosicion(0, 0, 0.0, 5.0);
+  
     
     reyNegro = new Rey(3, 0, Color::Negro);
     reyNegro->setPosicion(3, 0, c3.getX(), c3.getY());
@@ -47,6 +51,26 @@ void mundo::inicializa() {
     torreBlancaarriba = new Torre(7, 7, Color::Blanco);
     torreBlancaarriba->setPosicion(7, 7, c10.getX(), c10.getY());
     piezas.push_back(torreBlancaarriba);
+
+  // alfilNegroabajo = new Alfil(2, 0, Color::Negro);
+  //  alfilNegroabajo->setPosicion(2, 0, c11.getX(), c11.getY());
+  //  piezas.push_back(alfilNegroabajo);
+
+   // alfilNegroarriba = new Alfil(5, 0, Color::Negro);
+  //  alfilNegroarriba->setPosicion(5, 0, c12.getX(), c12.getY());
+  //  piezas.push_back(alfilNegroarriba);
+
+   // alfilBlancoarriba = new Alfil(5, 7, Color::Blanco);
+  //  alfilBlancoarriba->setPosicion(5, 7, c14.getX(), c14.getY());
+  //  piezas.push_back(alfilBlancoarriba);
+
+   // alfilBlancoabajo = new Alfil(2, 7, Color::Blanco);
+  //  alfilBlancoabajo->setPosicion(2, 7, c13.getX(), c14.getY());
+  //  piezas.push_back(alfilBlancoabajo);
+
+
+    
+
 
     for (int i = 0; i < 8; i++) {
         Casillas c = table.getCasilla(i, 1);
@@ -77,6 +101,8 @@ void mundo::inicializa() {
     caballoBlancoabajo = new Caballo(1, 7, Color::Blanco);
     caballoBlancoabajo->setPosicion(1, 7, c6.getX(), c6.getY());
     piezas.push_back(caballoBlancoabajo);
+
+    
 
     //std::cout << "Caballo1 en: (" << caballoNegroarriba->getPosicion().getFila() << "," << caballoNegroarriba->getPosicion().getColumna() << ")\n";
     //std::cout << "Caballo2 en: (" << caballoNegroabajo->getPosicion().getFila() << "," << caballoNegroabajo->getPosicion().getColumna() << ")\n";

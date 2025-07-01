@@ -16,7 +16,7 @@ class mundo
     Pieza* piezaSeleccionada ;
     tablero table;
     //Caballo caballo;
-    Alfil alfil;
+   
     Rey* reyNegro;
     Rey* reyBlanco;
     Peon* peonesNegros[8];
@@ -30,6 +30,11 @@ class mundo
     Torre* torreNegraarriba;
     Torre* torreBlancaabajo;
     Torre* torreBlancaarriba;
+    Alfil* alfilNegroarriba;
+    Alfil* alfilNegroabajo;
+    Alfil* alfilBlancoabajo;
+    Alfil* alfilBlancoarriba;
+
 
 public:
     mundo();
