@@ -10,7 +10,7 @@ class Alfil : public Pieza
 	ETSIDI::SpriteSequence sprite;
 public:
 	Alfil(int fila = 0, int columna = 0, Color col = Color::Negro)
-		:Pieza(fila, columna, col), sprite((col == Color::Blanco) ? "bin/imagenes/alfil_blanco.png" : "bin/imagenes/alfil_negro.png", 1)
+		:Pieza(fila, columna, col), sprite((col == Color::Blanco) ? "bin/imagenes/AlfilB.png" : "bin/imagenes/AlfilN.png", 1)
 	{
 		sprite.setCenter(0, 0);
 		sprite.setSize(1, 1);

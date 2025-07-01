@@ -52,21 +52,21 @@ void mundo::inicializa() {
     torreBlancaarriba->setPosicion(7, 7, c10.getX(), c10.getY());
     piezas.push_back(torreBlancaarriba);
 
-  // alfilNegroabajo = new Alfil(2, 0, Color::Negro);
-  //  alfilNegroabajo->setPosicion(2, 0, c11.getX(), c11.getY());
-  //  piezas.push_back(alfilNegroabajo);
+   alfilNegroabajo = new Alfil(2, 0, Color::Negro);
+    alfilNegroabajo->setPosicion(2, 0, c11.getX(), c11.getY());
+   piezas.push_back(alfilNegroabajo);
 
-   // alfilNegroarriba = new Alfil(5, 0, Color::Negro);
-  //  alfilNegroarriba->setPosicion(5, 0, c12.getX(), c12.getY());
-  //  piezas.push_back(alfilNegroarriba);
+    alfilNegroarriba = new Alfil(5, 0, Color::Negro);
+   alfilNegroarriba->setPosicion(5, 0, c12.getX(), c12.getY());
+   piezas.push_back(alfilNegroarriba);
 
-   // alfilBlancoarriba = new Alfil(5, 7, Color::Blanco);
-  //  alfilBlancoarriba->setPosicion(5, 7, c14.getX(), c14.getY());
-  //  piezas.push_back(alfilBlancoarriba);
+    alfilBlancoarriba = new Alfil(5, 7, Color::Blanco);
+   alfilBlancoarriba->setPosicion(5, 7, c14.getX(), c14.getY());
+   piezas.push_back(alfilBlancoarriba);
 
-   // alfilBlancoabajo = new Alfil(2, 7, Color::Blanco);
-  //  alfilBlancoabajo->setPosicion(2, 7, c13.getX(), c14.getY());
-  //  piezas.push_back(alfilBlancoabajo);
+   alfilBlancoabajo = new Alfil(2, 7, Color::Blanco);
+   alfilBlancoabajo->setPosicion(2, 7, c13.getX(), c14.getY());
+    piezas.push_back(alfilBlancoabajo);
 
 
     
