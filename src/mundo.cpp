@@ -65,7 +65,7 @@ void mundo::inicializa() {
    piezas.push_back(alfilBlancoarriba);
 
    alfilBlancoabajo = new Alfil(2, 7, Color::Blanco);
-   alfilBlancoabajo->setPosicion(2, 7, c13.getX(), c14.getY());
+   alfilBlancoabajo->setPosicion(2, 7, c13.getX(), c13.getY());
     piezas.push_back(alfilBlancoabajo);
 
 
